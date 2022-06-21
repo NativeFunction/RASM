@@ -1,0 +1,2454 @@
+//> Default Static Information
+SetStaticsCount 1
+//<
+
+:EntryPoint//>
+Function 0 2
+Nop
+Nop
+Nop
+Nop
+Nop
+Nop
+Nop
+Nop
+Nop
+Call @Function_0
+CallNative GET_HASH_OF_THIS_SCRIPT_NAME 0 1
+CallNative _GET_NUMBER_OF_INSTANCES_OF_SCRIPT_WITH_NAME_HASH 1 1
+Push 1
+JumpGT @Label_0
+PushString "\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xB4^\x8Do%Y\xBD\xA8\xCC\x0A\xEF&[f\xBD\x98\xBF\x0A\xEF\x17Y-\x89\x9D\xD1=\xE7\x1F*\\xFE\xEC\xA2L\xDF\x16Z,\x8E\x9C\xD2<\xE8\x1ER\x7F\xDF\xCB\x83o\xB9&K>\x9D\x88\xC7*\xFF\x06K\x1E\x98\xDB\xE7B\xBAJ\x07q\x9D\xFF\x88x\xB3BkP\xDC\xE6\xE7'\x96H\x0Dw\xD3\xC1\x93s\xDFo\x05x\xD4\xC6\x8E~\xA6&k\x1E\xBD\xA8\xFD\xFD\xFD\xFD"
+SetStatic 0
+Call @Function_1
+
+:Label_0
+Return 0 0
+//<
+
+:Function_6//>
+Function 2 4
+PushString "\xB4^\x8Do%Y\xBD\xA8\xCC\x0A\xEF&[f\xBD\x98\xBF\x0A\xEF\x17Y-\x89\x9D\xD1=\xE7\x1F*\\xFE\xEC\xA2L\xDF\x16Z,\x8E\x9C\xD2<\xE8\x1ER\x7F\xDF\xCB\x83o\xB9&K>\x9D\x88\xC7*\xFF\x06K\x1E\x98\xDB\xE7B\xBAJ\x07q\x9D\xFF\x88x\xB3BkP\xDC\xE6\xE7'\x96H\x0Dw\xD3\xC1\x93s\xDFo\x05x\xD4\xC6\x8E~\xA6&k\x1E\xBD\xA8\xFD\xFD\xFD\xFD"
+CallNative BEGIN_TEXT_COMMAND_PRINT 1 0
+GetFrame 0
+CallNative ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME 1 0
+GetFrame 1
+Push 1
+CallNative END_TEXT_COMMAND_PRINT 2 0
+Return 2 0
+//<
+
+:Function_5//>
+Function 3 73
+GetFrame 1
+CallNative GET_LENGTH_OF_LITERAL_STRING 1 1
+SetFrame 5
+Push 0
+SetFrame 6
+PushString "\xA8\xCC\x0A\xEF&[f\xBD\x98\xBF\x0A\xEF\x17Y-\x89\x9D\xD1=\xE7\x1F*\\xFE\xEC\xA2L\xDF\x16Z,\x8E\x9C\xD2<\xE8\x1ER\x7F\xDF\xCB\x83o\xB9&K>\x9D\x88\xC7*\xFF\x06K\x1E\x98\xDB\xE7B\xBAJ\x07q\x9D\xFF\x88x\xB3BkP\xDC\xE6\xE7'\x96H\x0Dw\xD3\xC1\x93s\xDFo\x05x\xD4\xC6\x8E~\xA6&k\x1E\xBD\xA8\xFD\xFD\xFD\xFD"
+GetFrame 0
+StrCopy 255
+Push 0
+SetFrame 7
+Push 0
+SetFrame 8
+GetFrame 8
+GetFrame 5
+CmpLT
+JumpFalse @Label_1
+
+:Label_30
+GetFrame 1
+GetFrame 8
+Add
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_2
+Push -16777216
+Or
+
+:Label_2
+Push 37
+CmpEQ
+JumpFalse @Label_3
+GetFrame 8
+AddImm 1
+Dup
+SetFrame 8
+GetFrame 5
+CmpGE
+JumpFalse @Label_4
+Jump @Label_1
+
+:Label_4
+GetFrame 1
+GetFrame 8
+Add
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_5
+Push -16777216
+Or
+
+:Label_5
+Switch [43 @Label_6]:[35 @Label_7]
+Jump @Label_8
+
+:Label_6
+GetFrame 7
+Push 1
+Or
+SetFrame 7
+GetFrame 8
+AddImm 1
+Dup
+SetFrame 8
+GetFrame 5
+CmpGE
+JumpFalse @Label_9
+Jump @Label_1
+
+:Label_9
+Jump @Label_4
+
+:Label_7
+GetFrame 7
+Push 2
+Or
+SetFrame 7
+GetFrame 8
+AddImm 1
+Dup
+SetFrame 8
+GetFrame 5
+CmpGE
+JumpFalse @Label_10
+Jump @Label_1
+
+:Label_10
+Jump @Label_4
+
+:Label_8
+GetFrame 1
+GetFrame 8
+Add
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_11
+Push -16777216
+Or
+
+:Label_11
+Switch [100 @Label_12]:[105 @Label_12]:[111 @Label_13]:[112 @Label_14]:[120 @Label_14]:[88 @Label_15]:[102 @Label_16]:[70 @Label_16]:[99 @Label_17]:[115 @Label_18]:[110 @Label_19]:[37 @Label_20]
+Jump @Label_21
+
+:Label_12
+GetFrame 2
+Push 4
+Add
+SetFrame 2
+GetFrame 2
+Push 4
+Sub
+pGet
+SetFrame 9
+GetFrame 7
+Push 1
+And
+Push 0
+CmpNE
+JumpFalse @Label_22
+GetFrame 9
+Push 0
+CmpGE
+JumpFalse @Label_22
+PushString "\xCC\x0A\xEF&[f\xBD\x98\xBF\x0A\xEF\x17Y-\x89\x9D\xD1=\xE7\x1F*\\xFE\xEC\xA2L\xDF\x16Z,\x8E\x9C\xD2<\xE8\x1ER\x7F\xDF\xCB\x83o\xB9&K>\x9D\x88\xC7*\xFF\x06K\x1E\x98\xDB\xE7B\xBAJ\x07q\x9D\xFF\x88x\xB3BkP\xDC\xE6\xE7'\x96H\x0Dw\xD3\xC1\x93s\xDFo\x05x\xD4\xC6\x8E~\xA6&k\x1E\xBD\xA8\xFD\xFD\xFD\xFD"
+GetFrame 0
+StrAdd 255
+
+:Label_22
+GetFrame 9
+GetFrame 0
+StrAddi 255
+Jump @Label_21
+
+:Label_13
+GetFrame 7
+Push 2
+And
+Push 0
+CmpNE
+JumpFalse @Label_23
+PushString "\xEF&[f\xBD\x98\xBF\x0A\xEF\x17Y-\x89\x9D\xD1=\xE7\x1F*\\xFE\xEC\xA2L\xDF\x16Z,\x8E\x9C\xD2<\xE8\x1ER\x7F\xDF\xCB\x83o\xB9&K>\x9D\x88\xC7*\xFF\x06K\x1E\x98\xDB\xE7B\xBAJ\x07q\x9D\xFF\x88x\xB3BkP\xDC\xE6\xE7'\x96H\x0Dw\xD3\xC1\x93s\xDFo\x05x\xD4\xC6\x8E~\xA6&k\x1E\xBD\xA8\xFD\xFD\xFD\xFD"
+GetFrame 0
+StrAdd 255
+
+:Label_23
+GetFrame 2
+Push 4
+Add
+SetFrame 2
+GetFrame 2
+Push 4
+Sub
+pGet
+Push 8
+Call @Function_2
+GetFrame 0
+StrAddi 255
+Jump @Label_21
+
+:Label_14
+GetFrame 7
+Push 2
+And
+Push 0
+CmpNE
+JumpFalse @Label_24
+PushString "[f\xBD\x98\xBF\x0A\xEF\x17Y-\x89\x9D\xD1=\xE7\x1F*\\xFE\xEC\xA2L\xDF\x16Z,\x8E\x9C\xD2<\xE8\x1ER\x7F\xDF\xCB\x83o\xB9&K>\x9D\x88\xC7*\xFF\x06K\x1E\x98\xDB\xE7B\xBAJ\x07q\x9D\xFF\x88x\xB3BkP\xDC\xE6\xE7'\x96H\x0Dw\xD3\xC1\x93s\xDFo\x05x\xD4\xC6\x8E~\xA6&k\x1E\xBD\xA8\xFD\xFD\xFD\xFD"
+GetFrame 0
+StrAdd 255
+
+:Label_24
+GetFrame 2
+Push 4
+Add
+SetFrame 2
+GetFrame 2
+Push 4
+Sub
+pGet
+Push 1
+Call @Function_3
+GetFrame 0
+StrAdd 255
+Jump @Label_21
+
+:Label_15
+GetFrame 7
+Push 2
+And
+Push 0
+CmpNE
+JumpFalse @Label_25
+PushString "\x98\xBF\x0A\xEF\x17Y-\x89\x9D\xD1=\xE7\x1F*\\xFE\xEC\xA2L\xDF\x16Z,\x8E\x9C\xD2<\xE8\x1ER\x7F\xDF\xCB\x83o\xB9&K>\x9D\x88\xC7*\xFF\x06K\x1E\x98\xDB\xE7B\xBAJ\x07q\x9D\xFF\x88x\xB3BkP\xDC\xE6\xE7'\x96H\x0Dw\xD3\xC1\x93s\xDFo\x05x\xD4\xC6\x8E~\xA6&k\x1E\xBD\xA8\xFD\xFD\xFD\xFD"
+GetFrame 0
+StrAdd 255
+
+:Label_25
+GetFrame 2
+Push 4
+Add
+SetFrame 2
+GetFrame 2
+Push 4
+Sub
+pGet
+Push 0
+Call @Function_3
+GetFrame 0
+StrAdd 255
+Jump @Label_21
+
+:Label_16
+GetFrameP 9
+GetFrame 2
+Push 4
+Add
+SetFrame 2
+GetFrame 2
+Push 4
+Sub
+pGet
+Push 102
+Push 0
+Push 0
+Call @Function_4
+GetFrameP 9
+GetFrame 0
+StrAdd 255
+Jump @Label_21
+
+:Label_17
+GetFrame 2
+Push 4
+Add
+SetFrame 2
+GetFrame 2
+Push 4
+Sub
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_26
+Push -16777216
+Or
+
+:Label_26
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrameP 6
+pGet
+Push 16777215
+And
+Or
+GetFrameP 6
+pSet
+GetFrameP 6
+GetFrame 0
+StrAdd 255
+Jump @Label_21
+
+:Label_18
+GetFrame 2
+Push 4
+Add
+SetFrame 2
+GetFrame 2
+Push 4
+Sub
+pGet
+GetFrame 0
+StrAdd 255
+Jump @Label_21
+
+:Label_19
+GetFrame 0
+CallNative GET_LENGTH_OF_LITERAL_STRING 1 1
+GetFrame 2
+Push 4
+Add
+SetFrame 2
+GetFrame 2
+Push 4
+Sub
+pGet
+pSet
+Jump @Label_21
+
+:Label_20
+GetFrame 1
+GetFrame 8
+Add
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_27
+Push -16777216
+Or
+
+:Label_27
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrameP 6
+pGet
+Push 16777215
+And
+Or
+GetFrameP 6
+pSet
+GetFrameP 6
+GetFrame 0
+StrAdd 255
+Jump @Label_21
+
+:Label_21
+Jump @Label_28
+
+:Label_3
+GetFrame 1
+GetFrame 8
+Add
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_29
+Push -16777216
+Or
+
+:Label_29
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrameP 6
+pGet
+Push 16777215
+And
+Or
+GetFrameP 6
+pSet
+GetFrameP 6
+GetFrame 0
+StrAdd 255
+
+:Label_28
+GetFrame 8
+AddImm 1
+SetFrame 8
+GetFrame 8
+GetFrame 5
+CmpLT
+Not
+JumpFalse @Label_30
+
+:Label_1
+Return 3 0
+//<
+
+:Function_8//>
+Function 4 7
+GetFrameP 0
+Push 4
+Add
+pGet
+SetFrame 6
+GetStatic 0
+GetFrame 0
+GetFrame 6
+Call @Function_5
+GetStatic 0
+Push 5000
+Call @Function_6
+Return 4 0
+//<
+
+:Function_3//>
+Function 2 8
+GetFrame 1
+JumpFalse @Label_31
+PushString "\xEF\x17Y-\x89\x9D\xD1=\xE7\x1F*\\xFE\xEC\xA2L\xDF\x16Z,\x8E\x9C\xD2<\xE8\x1ER\x7F\xDF\xCB\x83o\xB9&K>\x9D\x88\xC7*\xFF\x06K\x1E\x98\xDB\xE7B\xBAJ\x07q\x9D\xFF\x88x\xB3BkP\xDC\xE6\xE7'\x96H\x0Dw\xD3\xC1\x93s\xDFo\x05x\xD4\xC6\x8E~\xA6&k\x1E\xBD\xA8\xFD\xFD\xFD\xFD"
+SetFrame 4
+Jump @Label_32
+
+:Label_31
+PushString "\x16Z,\x8E\x9C\xD2<\xE8\x1ER\x7F\xDF\xCB\x83o\xB9&K>\x9D\x88\xC7*\xFF\x06K\x1E\x98\xDB\xE7B\xBAJ\x07q\x9D\xFF\x88x\xB3BkP\xDC\xE6\xE7'\x96H\x0Dw\xD3\xC1\x93s\xDFo\x05x\xD4\xC6\x8E~\xA6&k\x1E\xBD\xA8\xFD\xFD\xFD\xFD"
+SetFrame 4
+
+:Label_32
+GetFrameP 0
+SetFrame 5
+PushString "K>\x9D\x88\xC7*\xFF\x06K\x1E\x98\xDB\xE7B\xBAJ\x07q\x9D\xFF\x88x\xB3BkP\xDC\xE6\xE7'\x96H\x0Dw\xD3\xC1\x93s\xDFo\x05x\xD4\xC6\x8E~\xA6&k\x1E\xBD\xA8\xFD\xFD\xFD\xFD"
+SetFrame 6
+Push 0
+SetFrame 7
+GetFrame 7
+Push 4
+CmpLT
+JumpFalse @Label_33
+
+:Label_36
+GetFrame 4
+GetFrame 5
+GetFrame 7
+Add
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Push 4
+CallNative SHIFT_RIGHT 2 1
+Push 15
+And
+Add
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_34
+Push -16777216
+Or
+
+:Label_34
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 6
+GetFrame 7
+Push 2
+Mult
+Add
+pGet
+Push 16777215
+And
+Or
+GetFrame 6
+GetFrame 7
+Push 2
+Mult
+Add
+pSet
+GetFrame 4
+GetFrame 5
+GetFrame 7
+Add
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Push 15
+And
+Add
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_35
+Push -16777216
+Or
+
+:Label_35
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 6
+GetFrame 7
+Push 2
+Mult
+Push 1
+Add
+Add
+pGet
+Push 16777215
+And
+Or
+GetFrame 6
+GetFrame 7
+Push 2
+Mult
+Push 1
+Add
+Add
+pSet
+GetFrame 7
+AddImm 1
+SetFrame 7
+GetFrame 7
+Push 4
+CmpLT
+Not
+JumpFalse @Label_36
+
+:Label_33
+Push 0
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 6
+AddImm 8
+pGet
+Push 16777215
+And
+Or
+GetFrame 6
+AddImm 8
+pSet
+GetFrame 6
+Return 2 1
+//<
+
+:Function_2//>
+Function 2 6
+Push 0
+SetFrame 4
+Push 1
+SetFrame 5
+GetFrame 0
+JumpFalse @Label_37
+
+:Label_38
+GetFrame 4
+GetFrame 0
+GetFrame 1
+Mod
+GetFrame 5
+Mult
+Add
+SetFrame 4
+GetFrame 0
+GetFrame 1
+Div
+SetFrame 0
+GetFrame 5
+Push 10
+Mult
+SetFrame 5
+GetFrame 0
+Not
+JumpFalse @Label_38
+
+:Label_37
+GetFrame 4
+Return 2 1
+//<
+
+:Function_7//>
+Function 11 13
+Push 0
+Return 11 1
+//<
+
+:Function_1//>
+Function 0 6
+Push 0
+Push 0
+CallNative PLAYER_PED_ID 0 1
+PushF 0
+PushF 0
+PushF 0
+PushF 0
+PushF 0
+PushF 0
+Push 0
+PushF 0
+Call @Function_7
+Drop
+GetFrame 2
+Push 9
+Call @Function_6
+PushF 3372029952.000000
+PushF 0
+Push 2
+GetFrameP 3
+FromStack
+Push 8
+Switch [-922937317 @Label_39]
+Jump @Label_40
+
+:Label_39
+Jump @Label_40
+
+:Label_40
+Push 1
+JumpFalse @Label_41
+
+:Label_42
+PushString "\x98\xDB\xE7B\xBAJ\x07q\x9D\xFF\x88x\xB3BkP\xDC\xE6\xE7'\x96H\x0Dw\xD3\xC1\x93s\xDFo\x05x\xD4\xC6\x8E~\xA6&k\x1E\xBD\xA8\xFD\xFD\xFD\xFD"
+PushString "B\xBAJ\x07q\x9D\xFF\x88x\xB3BkP\xDC\xE6\xE7'\x96H\x0Dw\xD3\xC1\x93s\xDFo\x05x\xD4\xC6\x8E~\xA6&k\x1E\xBD\xA8\xFD\xFD\xFD\xFD"
+SetFrame 5
+GetFrameP 5
+Push 1
+Push 1
+Call @Function_8
+Push 0
+CallNative WAIT 1 0
+Push 1
+Not
+JumpFalse @Label_42
+
+:Label_41
+Return 0 0
+//<
+
+:Function_13//>
+Function 6 17
+Push 0
+Dup
+SetFrame 15
+Dup
+SetFrame 14
+SetFrame 13
+GetFrame 0
+PushF 0
+fCmpLT
+JumpFalse @Label_43
+GetFrame 0
+fNeg
+SetFrame 0
+Push 45
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 2
+Dup
+SetFrame 16
+pGet
+Push 16777215
+And
+Or
+GetFrame 16
+pSet
+Jump @Label_44
+
+:Label_43
+Push 0
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 2
+Dup
+SetFrame 16
+pGet
+Push 16777215
+And
+Or
+GetFrame 16
+pSet
+
+:Label_44
+GetFrame 0
+GetFrameP 11
+Call @Function_9
+SetFrame 10
+GetFrame 4
+AddImm 1
+Dup
+SetFrame 4
+SetFrame 9
+GetFrame 5
+Push 1
+Sub
+SetFrame 8
+GetFrame 11
+PushF 0
+fCmpNE
+JumpFalse @Label_45
+
+:Label_46
+GetFrame 11
+PushF 10.000000
+fDiv
+GetFrameP 11
+Call @Function_9
+SetFrame 12
+GetFrame 12
+PushF 0.010000
+fAdd
+PushF 10.000000
+fMult
+FtoI
+Push 48
+Add
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 8
+Dup
+AddImm 65535
+SetFrame 8
+Dup
+SetFrame 16
+pGet
+Push 16777215
+And
+Or
+GetFrame 16
+pSet
+GetFrame 14
+AddImm 1
+SetFrame 14
+GetFrame 11
+PushF 0
+fCmpNE
+Not
+JumpFalse @Label_46
+
+:Label_45
+GetFrame 3
+Switch [102 @Label_47]:[101 @Label_48]:[69 @Label_48]:[103 @Label_49]:[71 @Label_49]
+Jump @Label_50
+
+:Label_47
+GetFrame 14
+JumpFalse @Label_51
+GetFrame 8
+AddImm 1
+Dup
+SetFrame 8
+GetFrame 5
+CmpLT
+JumpFalse @Label_52
+
+:Label_54
+GetFrame 8
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_53
+Push -16777216
+Or
+
+:Label_53
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 9
+Dup
+AddImm 1
+SetFrame 9
+Dup
+SetFrame 16
+pGet
+Push 16777215
+And
+Or
+GetFrame 16
+pSet
+GetFrame 8
+AddImm 1
+Dup
+SetFrame 8
+GetFrame 5
+CmpLT
+Not
+JumpFalse @Label_54
+
+:Label_52
+Jump @Label_55
+
+:Label_51
+Push 48
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 9
+Dup
+AddImm 1
+SetFrame 9
+Dup
+SetFrame 16
+pGet
+Push 16777215
+And
+Or
+GetFrame 16
+pSet
+
+:Label_55
+GetFrame 1
+JumpFalse @Label_56
+Push 46
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 9
+Dup
+AddImm 1
+SetFrame 9
+Dup
+SetFrame 16
+pGet
+Push 16777215
+And
+Or
+GetFrame 16
+pSet
+
+:Label_56
+GetFrame 10
+PushF 0
+fCmpNE
+JumpFalse @Label_57
+GetFrame 1
+JumpFalse @Label_58
+
+:Label_59
+GetFrame 10
+PushF 10.000000
+fMult
+GetFrameP 12
+Call @Function_9
+SetFrame 10
+GetFrame 12
+FtoI
+Push 48
+Add
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 9
+Dup
+AddImm 1
+SetFrame 9
+Dup
+SetFrame 16
+pGet
+Push 16777215
+And
+Or
+GetFrame 16
+pSet
+GetFrame 1
+AddImm 65535
+Dup
+SetFrame 1
+JumpFalse @Label_58
+GetFrame 10
+PushF 0
+fCmpNE
+Not
+JumpFalse @Label_59
+
+:Label_58
+GetFrame 10
+PushF 0
+fCmpNE
+JumpFalse @Label_57
+GetFrame 10
+Push 0
+GetFrame 4
+GetFrame 9
+Push 1
+Sub
+Push 0
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 2
+Call @Function_10
+SetFrame 4
+
+:Label_57
+GetFrame 1
+Dup
+AddImm 65535
+SetFrame 1
+JumpFalse @Label_60
+
+:Label_61
+Push 48
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 9
+Dup
+AddImm 1
+SetFrame 9
+Dup
+SetFrame 16
+pGet
+Push 16777215
+And
+Or
+GetFrame 16
+pSet
+GetFrame 1
+Dup
+AddImm 65535
+SetFrame 1
+Not
+JumpFalse @Label_61
+
+:Label_60
+Jump @Label_50
+
+:Label_48
+GetFrame 14
+JumpFalse @Label_62
+GetFrame 8
+AddImm 1
+Dup
+SetFrame 8
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_63
+Push -16777216
+Or
+
+:Label_63
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 9
+Dup
+AddImm 1
+SetFrame 9
+Dup
+SetFrame 16
+pGet
+Push 16777215
+And
+Or
+GetFrame 16
+pSet
+GetFrame 1
+Not
+JumpFalse @Label_64
+Push 0
+JumpFalse @Label_65
+
+:Label_64
+Push 46
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 9
+Dup
+AddImm 1
+SetFrame 9
+Dup
+SetFrame 16
+pGet
+Push 16777215
+And
+Or
+GetFrame 16
+pSet
+
+:Label_65
+GetFrame 1
+JumpFalse @Label_66
+GetFrame 8
+AddImm 1
+Dup
+SetFrame 8
+GetFrame 5
+CmpLT
+JumpFalse @Label_66
+
+:Label_68
+GetFrame 8
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_67
+Push -16777216
+Or
+
+:Label_67
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 9
+Dup
+AddImm 1
+SetFrame 9
+Dup
+SetFrame 16
+pGet
+Push 16777215
+And
+Or
+GetFrame 16
+pSet
+GetFrame 1
+AddImm 65535
+SetFrame 1
+GetFrame 1
+JumpFalse @Label_66
+GetFrame 8
+AddImm 1
+Dup
+SetFrame 8
+GetFrame 5
+CmpLT
+Not
+JumpFalse @Label_68
+
+:Label_66
+GetFrame 1
+Not
+JumpFalse @Label_69
+GetFrame 8
+AddImm 1
+Dup
+SetFrame 8
+GetFrame 5
+CmpLT
+JumpFalse @Label_69
+PushF 0
+SetFrame 10
+PushF 0
+GetFrameP 14
+GetFrame 4
+GetFrame 9
+Push 1
+Sub
+GetFrame 8
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_70
+Push -16777216
+Or
+
+:Label_70
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 2
+Call @Function_10
+SetFrame 4
+
+:Label_69
+GetFrame 14
+AddImm 65535
+SetFrame 14
+Jump @Label_71
+
+:Label_62
+GetFrame 10
+PushF 0
+fCmpNE
+JumpFalse @Label_72
+Push -1
+SetFrame 14
+
+:Label_75
+GetFrame 10
+PushF 10.000000
+fMult
+GetFrameP 12
+Call @Function_9
+SetFrame 10
+GetFrame 12
+PushF 0
+fCmpNE
+JumpFalse @Label_73
+Jump @Label_74
+
+:Label_73
+GetFrame 14
+AddImm 65535
+SetFrame 14
+Jump @Label_75
+
+:Label_74
+GetFrame 12
+FtoI
+Push 48
+Add
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 9
+Dup
+AddImm 1
+SetFrame 9
+Dup
+SetFrame 16
+pGet
+Push 16777215
+And
+Or
+GetFrame 16
+pSet
+GetFrame 1
+Not
+JumpFalse @Label_76
+Push 0
+JumpFalse @Label_77
+
+:Label_76
+Push 46
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 9
+Dup
+AddImm 1
+SetFrame 9
+Dup
+SetFrame 16
+pGet
+Push 16777215
+And
+Or
+GetFrame 16
+pSet
+
+:Label_77
+Jump @Label_71
+
+:Label_72
+Push 48
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 9
+Dup
+AddImm 1
+SetFrame 9
+Dup
+SetFrame 16
+pGet
+Push 16777215
+And
+Or
+GetFrame 16
+pSet
+GetFrame 1
+Not
+JumpFalse @Label_78
+Push 0
+JumpFalse @Label_71
+
+:Label_78
+Push 46
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 9
+Dup
+AddImm 1
+SetFrame 9
+Dup
+SetFrame 16
+pGet
+Push 16777215
+And
+Or
+GetFrame 16
+pSet
+
+:Label_71
+GetFrame 10
+PushF 0
+fCmpNE
+JumpFalse @Label_79
+GetFrame 1
+JumpFalse @Label_80
+
+:Label_81
+GetFrame 10
+PushF 10.000000
+fMult
+GetFrameP 12
+Call @Function_9
+SetFrame 10
+GetFrame 12
+FtoI
+Push 48
+Add
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 9
+Dup
+AddImm 1
+SetFrame 9
+Dup
+SetFrame 16
+pGet
+Push 16777215
+And
+Or
+GetFrame 16
+pSet
+GetFrame 1
+AddImm 65535
+Dup
+SetFrame 1
+JumpFalse @Label_80
+GetFrame 10
+PushF 0
+fCmpNE
+Not
+JumpFalse @Label_81
+
+:Label_80
+GetFrame 10
+PushF 0
+fCmpNE
+JumpFalse @Label_79
+GetFrame 10
+GetFrameP 14
+GetFrame 4
+GetFrame 9
+Push 1
+Sub
+Push 0
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 2
+Call @Function_10
+SetFrame 4
+
+:Label_79
+GetFrame 1
+Dup
+AddImm 65535
+SetFrame 1
+JumpFalse @Label_82
+
+:Label_83
+Push 48
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 9
+Dup
+AddImm 1
+SetFrame 9
+Dup
+SetFrame 16
+pGet
+Push 16777215
+And
+Or
+GetFrame 16
+pSet
+GetFrame 1
+Dup
+AddImm 65535
+SetFrame 1
+Not
+JumpFalse @Label_83
+
+:Label_82
+GetFrame 15
+JumpFalse @Label_84
+Push 1
+JumpFalse @Label_84
+GetFrame 9
+GetFrame 4
+CmpGT
+JumpFalse @Label_85
+GetFrame 9
+AddImm 65535
+Dup
+SetFrame 9
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_86
+Push -16777216
+Or
+
+:Label_86
+Push 48
+CmpEQ
+JumpFalse @Label_85
+
+:Label_88
+GetFrame 9
+GetFrame 4
+CmpGT
+JumpFalse @Label_85
+GetFrame 9
+AddImm 65535
+Dup
+SetFrame 9
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_87
+Push -16777216
+Or
+
+:Label_87
+Push 48
+CmpEQ
+Not
+JumpFalse @Label_88
+
+:Label_85
+GetFrame 9
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_89
+Push -16777216
+Or
+
+:Label_89
+Push 46
+CmpEQ
+JumpFalse @Label_90
+GetFrame 9
+AddImm 65535
+SetFrame 9
+
+:Label_90
+GetFrame 9
+AddImm 1
+SetFrame 9
+
+:Label_84
+GetFrame 9
+GetFrame 14
+GetFrame 3
+Call @Function_11
+SetFrame 9
+Jump @Label_50
+
+:Label_49
+GetFrame 1
+Not
+JumpFalse @Label_91
+GetFrame 1
+AddImm 1
+SetFrame 1
+
+:Label_91
+GetFrame 14
+GetFrame 1
+CmpGT
+Not
+JumpFalse @Label_92
+GetFrame 14
+Not
+JumpFalse @Label_93
+GetFrame 10
+PushF 0
+fCmpNE
+JumpFalse @Label_93
+GetFrame 10
+PushF 0.000100
+fCmpLT
+JumpFalse @Label_93
+
+:Label_92
+GetFrame 1
+AddImm 65535
+SetFrame 1
+GetFrame 3
+Push 2
+Sub
+SetFrame 3
+Push 1
+SetFrame 15
+Jump @Label_48
+
+:Label_93
+GetFrame 14
+JumpFalse @Label_94
+GetFrame 8
+AddImm 1
+Dup
+SetFrame 8
+GetFrame 5
+CmpLT
+JumpFalse @Label_95
+
+:Label_97
+GetFrame 8
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_96
+Push -16777216
+Or
+
+:Label_96
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 9
+Dup
+AddImm 1
+SetFrame 9
+Dup
+SetFrame 16
+pGet
+Push 16777215
+And
+Or
+GetFrame 16
+pSet
+GetFrame 1
+AddImm 65535
+SetFrame 1
+GetFrame 8
+AddImm 1
+Dup
+SetFrame 8
+GetFrame 5
+CmpLT
+Not
+JumpFalse @Label_97
+
+:Label_95
+Jump @Label_98
+
+:Label_94
+Push 48
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 9
+Dup
+AddImm 1
+SetFrame 9
+Dup
+SetFrame 16
+pGet
+Push 16777215
+And
+Or
+GetFrame 16
+pSet
+
+:Label_98
+GetFrame 1
+Not
+JumpFalse @Label_99
+Push 0
+JumpFalse @Label_100
+
+:Label_99
+Push 1
+SetFrame 13
+Push 46
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 9
+Dup
+AddImm 1
+SetFrame 9
+Dup
+SetFrame 16
+pGet
+Push 16777215
+And
+Or
+GetFrame 16
+pSet
+Jump @Label_101
+
+:Label_100
+Push 0
+SetFrame 13
+
+:Label_101
+GetFrame 10
+PushF 0
+fCmpNE
+JumpFalse @Label_102
+GetFrame 1
+JumpFalse @Label_103
+
+:Label_105
+GetFrame 10
+PushF 10.000000
+fMult
+GetFrameP 12
+Call @Function_9
+SetFrame 10
+GetFrame 12
+FtoI
+Push 48
+Add
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 9
+Dup
+AddImm 1
+SetFrame 9
+Dup
+SetFrame 16
+pGet
+Push 16777215
+And
+Or
+GetFrame 16
+pSet
+GetFrame 12
+PushF 0
+fCmpEQ
+JumpFalse @Label_104
+GetFrame 14
+Not
+Not
+JumpFalse @Label_105
+
+:Label_104
+GetFrame 1
+AddImm 65535
+Dup
+SetFrame 1
+JumpFalse @Label_103
+GetFrame 10
+PushF 0
+fCmpNE
+JumpFalse @Label_103
+
+:Label_106
+GetFrame 10
+PushF 10.000000
+fMult
+GetFrameP 12
+Call @Function_9
+SetFrame 10
+GetFrame 12
+FtoI
+Push 48
+Add
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 9
+Dup
+AddImm 1
+SetFrame 9
+Dup
+SetFrame 16
+pGet
+Push 16777215
+And
+Or
+GetFrame 16
+pSet
+GetFrame 1
+AddImm 65535
+Dup
+SetFrame 1
+JumpFalse @Label_103
+GetFrame 10
+PushF 0
+fCmpNE
+Not
+JumpFalse @Label_106
+
+:Label_103
+GetFrame 10
+PushF 0
+fCmpNE
+JumpFalse @Label_102
+GetFrame 10
+Push 0
+GetFrame 4
+GetFrame 9
+Push 1
+Sub
+Push 0
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 2
+Call @Function_10
+SetFrame 4
+
+:Label_102
+Push 0
+JumpFalse @Label_107
+GetFrame 1
+Dup
+AddImm 65535
+SetFrame 1
+JumpFalse @Label_108
+
+:Label_109
+Push 48
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 9
+Dup
+AddImm 1
+SetFrame 9
+Dup
+SetFrame 16
+pGet
+Push 16777215
+And
+Or
+GetFrame 16
+pSet
+GetFrame 1
+Dup
+AddImm 65535
+SetFrame 1
+Not
+JumpFalse @Label_109
+
+:Label_108
+Jump @Label_110
+
+:Label_107
+GetFrame 13
+JumpFalse @Label_110
+GetFrame 9
+GetFrame 4
+CmpGT
+JumpFalse @Label_111
+GetFrame 9
+AddImm 65535
+Dup
+SetFrame 9
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_112
+Push -16777216
+Or
+
+:Label_112
+Push 48
+CmpEQ
+JumpFalse @Label_111
+
+:Label_114
+GetFrame 9
+GetFrame 4
+CmpGT
+JumpFalse @Label_111
+GetFrame 9
+AddImm 65535
+Dup
+SetFrame 9
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_113
+Push -16777216
+Or
+
+:Label_113
+Push 48
+CmpEQ
+Not
+JumpFalse @Label_114
+
+:Label_111
+GetFrame 9
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_115
+Push -16777216
+Or
+
+:Label_115
+Push 46
+CmpNE
+JumpFalse @Label_110
+GetFrame 9
+AddImm 1
+SetFrame 9
+
+:Label_110
+Jump @Label_50
+
+:Label_50
+GetFrame 9
+GetFrame 4
+Sub
+Return 6 1
+//<
+
+:Function_10//>
+Function 6 10
+GetFrame 0
+PushF 0
+fCmpNE
+JumpFalse @Label_116
+GetFrame 0
+PushF 10.000000
+fMult
+GetFrameP 8
+Call @Function_9
+Drop
+Jump @Label_117
+
+:Label_116
+GetFrame 4
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_118
+Push -16777216
+Or
+
+:Label_118
+Push 48
+Sub
+ItoF
+SetFrame 8
+
+:Label_117
+GetFrame 8
+PushF 4
+fCmpGT
+JumpFalse @Label_119
+
+:Label_128
+GetFrame 3
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_120
+Push -16777216
+Or
+
+:Label_120
+Push 46
+CmpEQ
+JumpFalse @Label_121
+GetFrame 3
+AddImm 65535
+SetFrame 3
+
+:Label_121
+GetFrame 3
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_122
+Push -16777216
+Or
+
+:Label_122
+AddImm 1
+Dup
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 3
+Dup
+SetFrame 9
+pGet
+Push 16777215
+And
+Or
+GetFrame 9
+pSet
+Push 57
+CmpLE
+JumpFalse @Label_123
+Jump @Label_124
+
+:Label_123
+Push 48
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 3
+Dup
+SetFrame 9
+pGet
+Push 16777215
+And
+Or
+GetFrame 9
+pSet
+GetFrame 3
+GetFrame 2
+CmpEQ
+JumpFalse @Label_125
+GetFrame 1
+JumpFalse @Label_126
+Push 49
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 3
+Dup
+SetFrame 9
+pGet
+Push 16777215
+And
+Or
+GetFrame 9
+pSet
+GetFrame 1
+pGet
+AddImm 1
+GetFrame 1
+pSet
+Jump @Label_127
+
+:Label_126
+Push 49
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 3
+AddImm 65535
+Dup
+SetFrame 3
+Dup
+SetFrame 9
+pGet
+Push 16777215
+And
+Or
+GetFrame 9
+pSet
+GetFrame 2
+AddImm 65535
+SetFrame 2
+
+:Label_127
+Jump @Label_124
+
+:Label_125
+GetFrame 3
+AddImm 65535
+SetFrame 3
+Jump @Label_128
+
+:Label_124
+Jump @Label_129
+
+:Label_119
+GetFrame 5
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_130
+Push -16777216
+Or
+
+:Label_130
+Push 45
+CmpEQ
+JumpFalse @Label_129
+
+:Label_136
+GetFrame 3
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_131
+Push -16777216
+Or
+
+:Label_131
+Push 46
+CmpEQ
+JumpFalse @Label_132
+GetFrame 3
+AddImm 65535
+SetFrame 3
+
+:Label_132
+GetFrame 3
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_133
+Push -16777216
+Or
+
+:Label_133
+Push 48
+CmpNE
+JumpFalse @Label_134
+Jump @Label_129
+
+:Label_134
+GetFrame 3
+GetFrame 2
+CmpEQ
+JumpFalse @Label_135
+Push 0
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 5
+Dup
+SetFrame 9
+pGet
+Push 16777215
+And
+Or
+GetFrame 9
+pSet
+
+:Label_135
+GetFrame 3
+AddImm 65535
+SetFrame 3
+Jump @Label_136
+
+:Label_129
+GetFrame 2
+Return 6 1
+//<
+
+:Function_11//>
+Function 3 71
+GetFrame 2
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 0
+Dup
+AddImm 1
+SetFrame 0
+Dup
+SetFrame 70
+pGet
+Push 16777215
+And
+Or
+GetFrame 70
+pSet
+GetFrame 1
+Push 0
+CmpLT
+JumpFalse @Label_137
+GetFrame 1
+Neg
+SetFrame 1
+Push 45
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 0
+Dup
+AddImm 1
+SetFrame 0
+Dup
+SetFrame 70
+pGet
+Push 16777215
+And
+Or
+GetFrame 70
+pSet
+Jump @Label_138
+
+:Label_137
+Push 43
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 0
+Dup
+AddImm 1
+SetFrame 0
+Dup
+SetFrame 70
+pGet
+Push 16777215
+And
+Or
+GetFrame 70
+pSet
+
+:Label_138
+GetFrameP 6
+Push 255
+Add
+SetFrame 5
+GetFrame 1
+Push 9
+CmpGT
+JumpFalse @Label_139
+
+:Label_140
+GetFrame 1
+Push 10
+Mod
+Push 48
+Add
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 5
+AddImm 65535
+Dup
+SetFrame 5
+Dup
+SetFrame 70
+pGet
+Push 16777215
+And
+Or
+GetFrame 70
+pSet
+GetFrame 1
+Push 10
+Div
+Dup
+SetFrame 1
+Push 9
+CmpGT
+Not
+JumpFalse @Label_140
+GetFrame 1
+Push 48
+Add
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 5
+AddImm 65535
+Dup
+SetFrame 5
+Dup
+SetFrame 70
+pGet
+Push 16777215
+And
+Or
+GetFrame 70
+pSet
+GetFrame 5
+GetFrameP 6
+Push 255
+Add
+CmpLT
+JumpFalse @Label_141
+
+:Label_143
+GetFrame 5
+Dup
+AddImm 1
+SetFrame 5
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_142
+Push -16777216
+Or
+
+:Label_142
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 0
+Dup
+AddImm 1
+SetFrame 0
+Dup
+SetFrame 70
+pGet
+Push 16777215
+And
+Or
+GetFrame 70
+pSet
+GetFrame 5
+GetFrameP 6
+Push 255
+Add
+CmpLT
+Not
+JumpFalse @Label_143
+
+:Label_141
+Jump @Label_144
+
+:Label_139
+Push 48
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 0
+Dup
+AddImm 1
+SetFrame 0
+Dup
+SetFrame 70
+pGet
+Push 16777215
+And
+Or
+GetFrame 70
+pSet
+GetFrame 1
+Push 48
+Add
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 0
+Dup
+AddImm 1
+SetFrame 0
+Dup
+SetFrame 70
+pGet
+Push 16777215
+And
+Or
+GetFrame 70
+pSet
+
+:Label_144
+GetFrame 0
+Return 3 1
+//<
+
+:Function_9//>
+Function 2 4
+GetFrame 0
+FtoI
+ItoF
+GetFrame 1
+pSet
+GetFrame 0
+GetFrame 0
+FtoI
+ItoF
+fSub
+Return 2 1
+//<
+
+:Function_12//>
+Function 1 4
+GetFrame 0
+GetFrameP 3
+GetImmP 0
+pSet
+GetFrameP 3
+GetImmP 0
+GetImmP 0
+pGet
+Push 1
+Push 8
+CallNative GET_BITS_IN_RANGE 3 1
+Push 255
+CmpNE
+Return 1 1
+//<
+
+:Function_4//>
+Function 5 77
+GetFrame 1
+Call @Function_12
+Not
+JumpFalse @Label_145
+GetFrame 1
+GetFrame 1
+fCmpNE
+JumpFalse @Label_146
+PushString "P\xDC\xE6\xE7'\x96H\x0Dw\xD3\xC1\x93s\xDFo\x05x\xD4\xC6\x8E~\xA6&k\x1E\xBD\xA8\xFD\xFD\xFD\xFD"
+GetFrame 0
+StrCopy 255
+Jump @Label_147
+
+:Label_146
+GetFrame 1
+PushF 0
+fCmpLT
+JumpFalse @Label_148
+PushString "'\x96H\x0Dw\xD3\xC1\x93s\xDFo\x05x\xD4\xC6\x8E~\xA6&k\x1E\xBD\xA8\xFD\xFD\xFD\xFD"
+GetFrame 0
+StrCopy 255
+Jump @Label_147
+
+:Label_148
+PushString "o\x05x\xD4\xC6\x8E~\xA6&k\x1E\xBD\xA8\xFD\xFD\xFD\xFD"
+GetFrame 0
+StrCopy 255
+
+:Label_147
+Return 5 0
+
+:Label_145
+GetFrame 4
+Push 0
+CmpEQ
+JumpFalse @Label_149
+Push 6
+SetFrame 4
+Jump @Label_150
+
+:Label_149
+GetFrame 4
+Push 23
+CmpGT
+JumpFalse @Label_150
+Push 23
+SetFrame 4
+
+:Label_150
+GetFrameP 7
+Push 1
+Add
+SetFrame 71
+Push 0
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 71
+Dup
+SetFrame 74
+pGet
+Push 16777215
+And
+Or
+GetFrame 74
+pSet
+GetFrame 1
+GetFrame 4
+GetFrameP 72
+GetFrame 2
+GetFrame 71
+GetFrameP 7
+Push 256
+Add
+Call @Function_13
+SetFrame 73
+GetFrame 71
+pGet
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_151
+Push -16777216
+Or
+
+:Label_151
+Push 0
+CmpEQ
+JumpFalse @Label_152
+GetFrame 71
+AddImm 1
+SetFrame 71
+
+:Label_152
+GetFrame 72
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_153
+Push -16777216
+Or
+
+:Label_153
+JumpFalse @Label_154
+GetFrame 72
+Push 24
+CallNative SHIFT_RIGHT 2 1
+Dup
+Push 127
+JumpLE @Label_155
+Push -16777216
+Or
+
+:Label_155
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 71
+AddImm 65535
+Dup
+SetFrame 71
+Dup
+SetFrame 74
+pGet
+Push 16777215
+And
+Or
+GetFrame 74
+pSet
+GetFrame 73
+AddImm 1
+SetFrame 73
+
+:Label_154
+Push 0
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 71
+GetFrame 73
+Add
+pGet
+Push 16777215
+And
+Or
+GetFrame 71
+GetFrame 73
+Add
+pSet
+GetFrame 0
+SetFrame 74
+GetFrame 71
+SetFrame 75
+GetFrame 73
+Push 1
+Add
+SetFrame 76
+Push 0
+
+:Label_157
+Dup
+GetFrame 76
+JumpGE @Label_156
+GetFrame 75
+pGet
+Push 24
+CallNative SHIFT_LEFT 2 1
+GetFrame 74
+pGet
+Push 16777215
+And
+Or
+GetFrame 74
+pSet
+GetFrame 74
+AddImm 1
+SetFrame 74
+GetFrame 75
+AddImm 1
+SetFrame 75
+AddImm 1
+Jump @Label_157
+
+:Label_156
+Drop
+Return 5 0
+//<
+
+:Function_0//>
+Function 0 7
+PushString "\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xE7\x0A\xDF&k\x1E\xBD\xA8\xB4^\x8Do%Y\xBD\xA8\xCC\x0A\xEF&[f\xBD\x98\xBF\x0A\xEF\x17Y-\x89\x9D\xD1=\xE7\x1F*\\xFE\xEC\xA2L\xDF\x16Z,\x8E\x9C\xD2<\xE8\x1ER\x7F\xDF\xCB\x83o\xB9&K>\x9D\x88\xC7*\xFF\x06K\x1E\x98\xDB\xE7B\xBAJ\x07q\x9D\xFF\x88x\xB3BkP\xDC\xE6\xE7'\x96H\x0Dw\xD3\xC1\x93s\xDFo\x05x\xD4\xC6\x8E~\xA6&k\x1E\xBD\xA8\xFD\xFD\xFD\xFD"
+pGet
+Not
+JumpFalse @Label_158
+Return 0 0
+
+:Label_158
+Push 368
+Dup
+SetFrame 2
+AddImm 16383
+Push 16384
+Div
+SetFrame 3
+Push 0
+SetFrame 4
+
+:Label_162
+GetFrame 4
+MultImm 16384
+PushStringS
+Dup
+SetFrame 5
+GetFrame 4
+GetFrame 3
+AddImm 65535
+JumpNE @Label_159
+GetFrame 2
+Push 16383
+And
+Jump @Label_160
+
+:Label_159
+Push 16384
+
+:Label_160
+Add
+SetFrame 6
+
+:Label_161
+GetFrame 5
+pGet
+Push 0
+Xor
+GetFrame 5
+pSet
+GetFrame 5
+GetImm 1
+Push -1
+Xor
+GetFrame 5
+SetImm 1
+GetFrame 5
+GetImmP 2
+Dup
+SetFrame 5
+GetFrame 6
+JumpLT @Label_161
+GetFrame 4
+AddImm 1
+Dup
+SetFrame 4
+GetFrame 3
+JumpLT @Label_162
+Return 0 0
+//<

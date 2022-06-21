@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{f7a0ead2-92bf-4f69-bbb8-efeb117a9b05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Compiler">
+      <UniqueIdentifier>{70e46291-105b-42e9-9ad4-6a8c9a381950}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Compression">
+      <UniqueIdentifier>{c5e216ba-45dd-4056-b0a8-bceb9656bde6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Crypto">
+      <UniqueIdentifier>{bd318142-a83a-49f2-8b0b-219931d83f62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Decompiler">
+      <UniqueIdentifier>{3508c504-714f-4d0e-ad20-63142108400d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Parsing">
+      <UniqueIdentifier>{6b38a8aa-f0ea-4c50-82d2-e9bcf75b3578}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Utils">
+      <UniqueIdentifier>{fed047bd-c5f6-41dc-8a52-837ce2d6b82f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{1212c580-05c7-40a0-99d4-279faddbc24c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Include\Utils\Utils.cpp">
+      <Filter>Include\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\Parsing\ParseCMD.cpp">
+      <Filter>Include\Parsing</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\Decompiler\Decompiler.cpp">
+      <Filter>Include\Decompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\Crypto\aes256.c">
+      <Filter>Include\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="RASM.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\Utils\types.h">
+      <Filter>Include\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Compression\zlib.h">
+      <Filter>Include\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utils\Constants.h">
+      <Filter>Include\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utils\ConsoleColor.h">
+      <Filter>Include\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utils\DataCollections.h">
+      <Filter>Include\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utils\DataReader.h">
+      <Filter>Include\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Parsing\ParseCMD.h">
+      <Filter>Include\Parsing</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Decompiler\Decompiler.h">
+      <Filter>Include\Decompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Crypto\aes256.h">
+      <Filter>Include\Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utils\Utils.h">
+      <Filter>Include\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Compression\xcompress.h">
+      <Filter>Include\Compression</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Compression\sal.h">
+      <Filter>Include\Compression</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Compression\SourceAnnotations.H">
+      <Filter>Include\Compression</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Csv Include="rdr2opcodes1355.csv" />
+    <Csv Include="rdr2opcodes1311.csv" />
+  </ItemGroup>
+</Project>
