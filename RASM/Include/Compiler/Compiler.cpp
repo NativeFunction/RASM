@@ -419,6 +419,16 @@ void CompileBase::AddSingleOp(Opcode op)
     CodeBuilder->WriteUInt8(targetOp);
 }
 
+void CompileBase::AddPad()
+{
+    int amount = GetNextTokenAsInt();
+
+    for (int i = 0; i < amount; i++)
+    {
+        AddSingleOp(Opcode::Nop);
+    }
+}
+
 void CompileBase::AddPushB2()
 {
     FixCodePage(3);
@@ -968,6 +978,11 @@ void CompileBase::ParseOpcode(Opcode op)
     case Opcode::GetHash:
         AddSingleOp(op);
         break;
+
+    case Opcode::Pad:
+        AddPad();
+        break;
+
     case Opcode::PushB2:        AddPushB2();            break;
     case Opcode::PushB3:        AddPushB3();            break;
     case Opcode::Push:          AddPush();              break;

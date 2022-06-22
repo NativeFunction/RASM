@@ -119,6 +119,8 @@ protected:
 
     void AddSingleOp(Opcode op);
 
+    void AddPad();
+
     virtual void AddPushB2();
 
     virtual void AddPushB3();

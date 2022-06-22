@@ -390,7 +390,7 @@ int ParseCommandLine(int argc, const char* argv[])
                 << "\t-v = Show Verbose Information\n"
                 << "\t-ow = Automatically Overwrite Source Output Path\n"
                 << "\t-dcs = Only Decompile Strings\n"
-                << "\t-dcs = Decompile Nops\n"
+                << "\t-dcn = Decompile Nops\n"
                 << "\t-nv = Specify Version for Natives {%d}\n"
                 << "\t-ov = Specify Version for Opcodes {%d}\n"
                 << "Compile Flags:\n\n"

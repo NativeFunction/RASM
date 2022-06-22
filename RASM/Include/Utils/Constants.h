@@ -289,6 +289,7 @@ enum class Opcode : uint16_t
     SetEnum,
     SetParamCount,
     SetSignature,
+    Pad,
 
 
     //custom multi ops
@@ -535,6 +536,7 @@ const std::unordered_map<std::string, Opcode> OpcodeNamesUpper =
     {"SETENUM", Opcode::SetEnum},
     {"SETPARAMCOUNT", Opcode::SetParamCount},
     {"SETSIGNATURE", Opcode::SetSignature},
+    {"PAD", Opcode::Pad},
 
     { "ADDIMM", Opcode::AddImm1 },
     { "MULTIMM", Opcode::MultImm1 },
