@@ -85,15 +85,15 @@ int main(int argc, const char* argv[])
 	//"-com", "Test/freemodeRDR.xsa", "Test/freemodeRDR.compiled.xsc",
 	//"-ow"};
 
-	const char* argvg[] = {
-	"-target", "GTAIV",
-	"-platform", "XBOX",
-	"-com", "Test/e2_freemode.sca", "Test/e2_freemode.compiled.sco",
-	"-ow"};
-	
-	argv = argvg;
-	argc = 8;
-repeat:
+	//const char* argvg[] = {
+	//"-target", "GTAIV",
+	//"-platform", "XBOX",
+	//"-com", "Test/e2_freemode.sca", "Test/e2_freemode.compiled.sco",
+	//"-ow"};
+	//
+	//argv = argvg;
+	//argc = 8;
+//repeat:
 	boost::timer::cpu_timer Time;
 	int ReturnCode = 0;
 	
@@ -130,17 +130,17 @@ repeat:
 	//"-platform", "XBOX",
 	//"-dec", "Test/freemodeRDR.compiled.xsc", "Test/freemodeRDR.compiled.xsa",
 	//"-ow", "-v", "-dcn" };
-	const char* argvg2[] = {
-	"-target", "GTAIV",
-	"-platform", "XBOX",
-	"-dec", "Test/e2_freemode.compiled.sco", "Test/e2_freemode.compiled.sca",
-	"-ow", "-v", "-dcn" };
-
-
-	argv = argvg2;
-	argc = 10;
-	
-	goto repeat;
+	//const char* argvg2[] = {
+	//"-target", "GTAIV",
+	//"-platform", "XBOX",
+	//"-dec", "Test/e2_freemode.compiled.sco", "Test/e2_freemode.compiled.sca",
+	//"-ow", "-v", "-dcn" };
+	//
+	//
+	//argv = argvg2;
+	//argc = 10;
+	//
+	//goto repeat;
 
 	
 	return ReturnCode;
