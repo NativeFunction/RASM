@@ -76,7 +76,7 @@ protected:
     virtual void LoadCodeData();
     virtual void LoadStringData();
     void LoadLabels();
-    void CheckFunctionUnused(char* unusedFunctionName = nullptr);
+    void CheckFunctionUnused(char* unusedFunctionName = nullptr, uint32_t len = 0);
     bool FindFunctionFromCallPos(uint8_t* position, uint8_t*& outPosition);
     void SetOps(Opcode commonOpsIndexedByTargetOps[255])
     {

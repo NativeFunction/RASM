@@ -8,7 +8,7 @@ using namespace std;
 
 #pragma region DecompileBase
 
-void DecompileBase::CheckFunctionUnused(char* unusedFunctionName)
+void DecompileBase::CheckFunctionUnused(char* unusedFunctionName, uint32_t len)
 {
     static uint32_t unusedFunctionCounter = 0;
     static bool isFirstFunction = true;
@@ -28,7 +28,7 @@ void DecompileBase::CheckFunctionUnused(char* unusedFunctionName)
                 else
                 {
                     Out += ":";
-                    Out += string(unusedFunctionName);
+                    Out += string(unusedFunctionName, len);
                     Out += "//>\r\n";
                 }
             }
@@ -45,7 +45,7 @@ void DecompileBase::CheckFunctionUnused(char* unusedFunctionName)
                 else
                 {
                     Out += "//<\r\n\r\n:";
-                    Out += string(unusedFunctionName);
+                    Out += string(unusedFunctionName, len);
                     Out += "//> pCall Location: ";
                     Out += to_string(pc);
                     Out += "\r\n";
@@ -873,7 +873,7 @@ inline void DecompileBase::PrintPushStringS(int index)
 inline void DecompileBase::PrintFunction(int paramCount, int varCount, char* name, int nameLength)
 {
     if (nameLength)
-        CheckFunctionUnused(name);
+        CheckFunctionUnused(name, nameLength);
     else
         CheckFunctionUnused();
 
