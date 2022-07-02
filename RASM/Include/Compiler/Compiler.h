@@ -184,6 +184,9 @@ protected:
                 break;
         }
 
+        //RDR2 requires sorted cases
+        std::sort(casesAndLabels.begin(), casesAndLabels.end());
+        
         writeSwitch(casesAndLabels);
 
         ParseNextLine(tok.Data);
