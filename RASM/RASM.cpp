@@ -2,8 +2,10 @@
 #include <boost/timer/timer.hpp>
 #include "Parsing/ParseCMD.h"
 
+
 int main(int argc, const char* argv[])
 {
+	
 	//const char* argvg[]  = {
 	//"-target", "RDR2", 
 	//"-platform", "PSX", 
@@ -19,14 +21,14 @@ int main(int argc, const char* argv[])
 	//const char* argvg[]  = {
 	//"-target", "RDR2", 
 	//"-platform", "PC", 
-	//"-dec", "Test/fishing_core.ysc.full", "Test/fishing_core.ysc.full.ysa",
-	//"-ow"};
+	//"-dec", "Test/MenuBase.ysc", "Test/MenuBase.ysa",
+	//"-ow", "-v", "-dcn" };
 
 	//const char* argvg[] = {
 	//"-target", "GTAV",
-	//"-platform", "XBOX",
-	//"-dec", "Test/freemode.xsc", "Test/freemode.xsa",
-	//"-ow", "-v"};
+	//"-platform", "PC",
+	//"-dec", "Test/MenuBase.ysc", "Test/MenuBase.ysa",
+	//"-ow", "-v", "-dcn"};
 
 	//const char* argvg[] = {
 	//"-target", "GTAV",
@@ -91,6 +93,18 @@ int main(int argc, const char* argv[])
 	//"-com", "Test/e2_freemode.sca", "Test/e2_freemode.compiled.sco",
 	//"-ow"};
 	//
+	//const char* argvg[]  = {
+	//"-target", "RDR2", 
+	//"-platform", "PC", 
+	//"-decd", R"(C:\Users\Rocko\Desktop\rdr2 files\scripts)", R"(C:\Users\Rocko\Desktop\rdr2 files\scripts\decompiled)",
+	//"-v", "-dcn" };
+
+	//const char* argvg[] = {
+	//"-target", "RDR2",
+	//"-platform", "PC",
+	//"-com", "Test/test.ysa", "Test/test.ysc",
+	//"-ow"};
+	//
 	//argv = argvg;
 	//argc = 8;
 //repeat:
@@ -110,7 +124,7 @@ int main(int argc, const char* argv[])
 	//const char* argvg2[] = {
 	//"-target", "RDR2",
 	//"-platform", "PC",
-	//"-dec", "Test/shop_gunsmith.ysc.full.out", "Test/shop_gunsmith.ysc.full.out.ysa",
+	//"-dec", "Test/test.ysc", "Test/testout.ysa",
 	//"-ow", "-v", "-dcn" };
 
 
@@ -139,7 +153,7 @@ int main(int argc, const char* argv[])
 	//
 	//argv = argvg2;
 	//argc = 10;
-	//
+	
 	//goto repeat;
 
 	

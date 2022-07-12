@@ -3,6 +3,7 @@
 #include <fstream>
 #include "Utils/types.h"
 #include <string>
+#include <boost/algorithm/string.hpp>
 
 using namespace std;
 
@@ -39,9 +40,93 @@ CompileBase::CompileBase(std::string& text, bool isLittleEndian, size_t maxPageS
 }
 
 
-int CompileBase::StringToInt(std::string& str)
+int CompileBase::StringToInt(std::string& str, IntTokenContext context, uint32_t missedGetLabelLocPos)
 {
-    if (str.size() > 2 && str[0] == '0' && tolower(str[1]) == 'x')
+    string strl = boost::algorithm::to_lower_copy(str);
+
+    if (strl == "joaat" || strl == "hashof")
+    {
+        return Utils::Hashing::Joaat(GetNextTokenInLine());
+    }
+
+    if (strl == "getenum")
+    {
+        string tok = GetNextTokenInLine();
+
+        auto e = Enums.find(tok);
+
+        if (e != Enums.end())
+            return e->second;
+
+        Utils::System::Warn("Enum " + tok + " not found on line " + to_string(line) + " using 0");
+        return 0;
+    }
+
+
+    if (str.size() > 2 && str[0] == '@' && missedGetLabelLocPos != -1)
+    {
+        //label loc
+
+        str[0] = ':';
+        auto res = LabelToCodePos.find(str);
+
+
+        if (res != LabelToCodePos.end())
+        {
+            return res->second;
+        }
+        else
+        {
+            MissedLabels[str].push_back({ missedGetLabelLocPos, false, line });
+            return 0xFFFFFF;
+        }
+    }
+
+
+    if (str.size() > 0 && strl[1] >= 'a' && strl[1] <= 'z')
+    {
+        switch (context)
+        {
+        case IntTokenContext::Local:
+        {
+            auto res = LocalNames.find(str);
+
+            if (res != LocalNames.end())
+                return res->second;
+            else
+                Utils::System::Throw("Could not find local name " + str + " on line " + to_string(line));
+            
+            break;
+        }
+        case IntTokenContext::Static:
+        {
+            auto res = StaticNames.find(str);
+
+            if (res != StaticNames.end())
+                return res->second;
+            else
+                Utils::System::Throw("Could not find static name " + str + " on line " + to_string(line));
+
+            break;
+        }
+        case IntTokenContext::Global:
+        {
+            auto res = GlobalNames.find(str);
+
+            if (res != GlobalNames.end())
+                return res->second;
+            else
+                Utils::System::Throw("Could not find global name " + str + " on line " + to_string(line));
+
+            break;
+        }
+        default:
+        case IntTokenContext::Default:
+            break;
+        }
+    }
+
+    if (str.size() > 2 && str[0] == '0' && strl[1] == 'x')
         return Utils::Bitwise::SwapEndian((int32_t)stoll(str, nullptr, 16));//big endian
     else
         return stoll(str, nullptr, 10);
@@ -295,12 +380,14 @@ string CompileBase::GetNextTokenInLine()
     return tok.Data;
 }
 
-int32_t CompileBase::GetNextTokenAsInt()
+
+
+int32_t CompileBase::GetNextTokenAsInt(IntTokenContext context, uint32_t missedGetLabelLocPos)
 {
     string tok = GetNextTokenInLine();
     try
     {
-        return StringToInt(tok);
+        return StringToInt(tok, context, missedGetLabelLocPos);
     }
     catch (exception)
     {
@@ -513,7 +600,8 @@ void CompileBase::AddPush(int val)
 
 void CompileBase::AddPush()
 {
-    AddPush(GetNextTokenAsInt());
+    //if label loc it will be push32
+    AddPush(GetNextTokenAsInt(IntTokenContext::Default, (uint32_t)CodeBuilder->Data.size() + 1));
 }
 
 void CompileBase::AddPushF(float val)
@@ -561,7 +649,6 @@ void CompileBase::AddPushF()
     AddPushF(GetNextTokenAsFloat());
 }
 
-
 void CompileBase::AddFunction()
 {
     int paramCount = GetNextTokenAsInt();
@@ -572,6 +659,8 @@ void CompileBase::AddFunction()
     CodeBuilder->WriteUInt8(paramCount);
     CodeBuilder->WriteUInt16(varCount);
     CodeBuilder->WriteUInt8(0);//function name length
+
+    LocalNames.clear();
 }
 
 void CompileBase::AddReturn()
@@ -848,13 +937,61 @@ void CompileBase::AddSetDefaultStatic()
 }
 
 void CompileBase::AddSetStaticName()
-{}
+{
+    int32_t staticIndex = GetNextTokenAsInt();
+    string staticName = GetNextTokenInLine();
+
+    if(staticName.size() > 0 && staticName[0] == '@')
+        Utils::System::Throw("Static name cannot start with @ " + to_string(line));
+
+
+    if (!StaticNames.contains(staticName))
+        StaticNames.insert({ staticName, staticIndex });
+    else
+        Utils::System::Throw("Static name already exists on line " + to_string(line));
+
+}
 
 void CompileBase::AddSetLocalName()
-{}
+{
+    //local names get cleared at function opcode
+
+    int32_t localIndex = GetNextTokenAsInt();
+    string localName = GetNextTokenInLine();
+
+    if (localName.size() > 0 && localName[0] == '@')
+        Utils::System::Throw("Local name cannot start with @ " + to_string(line));
+
+    if (!LocalNames.contains(localName))
+        LocalNames.insert({ localName, localIndex });
+    else
+        Utils::System::Throw("Local name already exists on line " + to_string(line));
+}
+
+void CompileBase::AddSetGlobalName()
+{
+    int32_t globalIndex = GetNextTokenAsInt();
+    string globalName = GetNextTokenInLine();
+
+    if (globalName.size() > 0 && globalName[0] == '@')
+        Utils::System::Throw("Global name cannot start with @ " + to_string(line));
+
+    if (!GlobalNames.contains(globalName))
+        GlobalNames.insert({ globalName, globalIndex });
+    else
+        Utils::System::Throw("Local name already exists on line " + to_string(line));
+}
+
 
 void CompileBase::AddSetEnum()
-{}
+{
+    string enumName = GetNextTokenInLine();
+
+    if (!Enums.contains(enumName))
+        Enums.insert({ enumName, GetNextTokenAsInt() });
+    else
+        Utils::System::Throw("Enum already exists on line " + to_string(line));
+}
 
 inline void CompileBase::AddSetParamCount()
 {
@@ -866,9 +1003,9 @@ inline void CompileBase::AddSetSignature()
     SignatureType = (Signature)GetNextTokenAsInt();
 }
 
-void CompileBase::AddVarOp(Opcode byteOp, Opcode shortOp, Opcode int24Op)
+void CompileBase::AddVarOp(IntTokenContext context, Opcode byteOp, Opcode shortOp, Opcode int24Op)
 {
-    int val = GetNextTokenAsInt();
+    int val = GetNextTokenAsInt(context);
 
     if (val >= 0)
     {
@@ -1020,58 +1157,59 @@ void CompileBase::ParseOpcode(Opcode op)
     case Opcode::SetDefaultStatic:  AddSetDefaultStatic();  break;
     case Opcode::SetStaticName:     AddSetStaticName();     break;
     case Opcode::SetLocalName:      AddSetLocalName();      break;
+    case Opcode::SetGlobalName:     AddSetGlobalName();      break;
     case Opcode::SetEnum:           AddSetEnum();           break;
     case Opcode::SetParamCount:     AddSetParamCount();     break;
     case Opcode::SetSignature:      AddSetSignature();     break;
 
     case Opcode::GetArrayP1:
     case Opcode::GetArrayP2:
-        AddVarOp(Opcode::GetArrayP1, Opcode::GetArrayP2);         break;
+        AddVarOp(IntTokenContext::Default, Opcode::GetArrayP1, Opcode::GetArrayP2);         break;
     case Opcode::GetArray1:
     case Opcode::GetArray2:
-        AddVarOp(Opcode::GetArray1, Opcode::GetArray2);          break;
+        AddVarOp(IntTokenContext::Default, Opcode::GetArray1, Opcode::GetArray2);          break;
     case Opcode::SetArray1:
     case Opcode::SetArray2:
-        AddVarOp(Opcode::SetArray1, Opcode::SetArray2);          break;
+        AddVarOp(IntTokenContext::Default, Opcode::SetArray1, Opcode::SetArray2);          break;
     case Opcode::GetLocalP1:
     case Opcode::GetLocalP2:
-        AddVarOp(Opcode::GetLocalP1, Opcode::GetLocalP2);         break;
+        AddVarOp(IntTokenContext::Local, Opcode::GetLocalP1, Opcode::GetLocalP2);         break;
     case Opcode::GetLocal1:
     case Opcode::GetLocal2:
-        AddVarOp(Opcode::GetLocal1, Opcode::GetLocal2);          break;
+        AddVarOp(IntTokenContext::Local, Opcode::GetLocal1, Opcode::GetLocal2);          break;
     case Opcode::SetLocal1:
     case Opcode::SetLocal2:
-        AddVarOp(Opcode::SetLocal1, Opcode::SetLocal2);          break;
+        AddVarOp(IntTokenContext::Local, Opcode::SetLocal1, Opcode::SetLocal2);          break;
     case Opcode::GetStaticP1:
     case Opcode::GetStaticP2:
     case Opcode::GetStaticP3://rdr2   
-        AddVarOp(Opcode::GetStaticP1, Opcode::GetStaticP2, Opcode::GetStaticP3);        break;
+        AddVarOp(IntTokenContext::Static, Opcode::GetStaticP1, Opcode::GetStaticP2, Opcode::GetStaticP3);        break;
     case Opcode::GetStatic1:
     case Opcode::GetStatic2:
     case Opcode::GetStatic3://rdr2    
-        AddVarOp(Opcode::GetStatic1, Opcode::GetStatic2, Opcode::GetStatic3);         break;
+        AddVarOp(IntTokenContext::Static, Opcode::GetStatic1, Opcode::GetStatic2, Opcode::GetStatic3);         break;
     case Opcode::SetStatic1:
     case Opcode::SetStatic2:
     case Opcode::SetStatic3://rdr2    
-        AddVarOp(Opcode::SetStatic1, Opcode::SetStatic2, Opcode::SetStatic3);         break;
+        AddVarOp(IntTokenContext::Static, Opcode::SetStatic1, Opcode::SetStatic2, Opcode::SetStatic3);         break;
     case Opcode::GetImmP1:
     case Opcode::GetImmP2:
-        AddVarOp(Opcode::GetImmP1, Opcode::GetImmP2);          break;
+        AddVarOp(IntTokenContext::Default, Opcode::GetImmP1, Opcode::GetImmP2);          break;
     case Opcode::GetImm1:
     case Opcode::GetImm2:
-        AddVarOp(Opcode::GetImm1, Opcode::GetImm2);          break;
+        AddVarOp(IntTokenContext::Default, Opcode::GetImm1, Opcode::GetImm2);          break;
     case Opcode::SetImm1:
     case Opcode::SetImm2:
-        AddVarOp(Opcode::SetImm1, Opcode::SetImm2);          break;
+        AddVarOp(IntTokenContext::Default, Opcode::SetImm1, Opcode::SetImm2);          break;
     case Opcode::GetGlobalP2:
     case Opcode::GetGlobalP3:
-        AddVarOp(Opcode::Uninitialized, Opcode::GetGlobalP2, Opcode::GetGlobalP3);        break;
+        AddVarOp(IntTokenContext::Global, Opcode::Uninitialized, Opcode::GetGlobalP2, Opcode::GetGlobalP3);        break;
     case Opcode::GetGlobal2:
     case Opcode::GetGlobal3:
-        AddVarOp(Opcode::Uninitialized, Opcode::GetGlobal2, Opcode::GetGlobal3);         break;
+        AddVarOp(IntTokenContext::Global, Opcode::Uninitialized, Opcode::GetGlobal2, Opcode::GetGlobal3);         break;
     case Opcode::SetGlobal2:
     case Opcode::SetGlobal3:
-        AddVarOp(Opcode::Uninitialized, Opcode::SetGlobal2, Opcode::SetGlobal3);         break;
+        AddVarOp(IntTokenContext::Global, Opcode::Uninitialized, Opcode::SetGlobal2, Opcode::SetGlobal3);         break;
     default:
         break;
 
@@ -1247,6 +1385,8 @@ void CompileGTAIV::AddFunction()
     AddSingleOp(Opcode::Function);
     CodeBuilder->WriteUInt8(paramCount);
     CodeBuilder->WriteUInt16(varCount);
+
+    LocalNames.clear();
 }
 
 void CompileGTAIV::AddSwitch()
@@ -1325,9 +1465,9 @@ void CompileGTAIV::AddPushF(float val)
     CodeBuilder->WriteFloat(val);
 }
 
-void CompileGTAIV::AddVarOp(Opcode byteOp, Opcode shortOp, Opcode int24Op)
+void CompileGTAIV::AddVarOp(IntTokenContext context, Opcode byteOp, Opcode shortOp, Opcode int24Op)
 {
-    int val = GetNextTokenAsInt();
+    int val = GetNextTokenAsInt(context);
 
     if (val < 0)
         Utils::System::Throw("Var op under 0 on line " + to_string(line));
@@ -1416,7 +1556,7 @@ void CompileGTAIV::WriteScript(const std::string& scriptOutPath)
     vector<uint8_t> compressedData(script.Data.size());
     Utils::Compression::ZLIB_CompressNew(script.Data, compressedData);
     script.Data = compressedData;
-    
+
     if (!Utils::Crypt::AES_Encrypt(script.Data.data(), script.Data.size(), GTAIVKey))
         Utils::System::Throw("Encryption Failed");
 

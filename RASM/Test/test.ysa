@@ -1,0 +1,51 @@
+//> Default Static Information
+SetStaticsCount 0
+//<
+
+:__builtin__entryPoint//>
+Function 0 2
+Call @main
+
+
+//> meta enums
+SetEnum VehicleCount 364//total number of vehicles in the game
+SetEnum MetaVehicleCount 298//number of vehicles in vehicles.meta
+SetEnum MetaVehicleDlcCount 66//number of dlc vehicles in vehicles.meta
+SetEnum MetaVehicleStartAddr 0xCD78AC70//start address for vehicle meta
+SetEnum MetaVehicleItemSize 624//size of one veh in meta struct
+//<
+
+SetEnum true 1
+SetEnum false 0
+
+push 1000
+push 0xFFFF
+push 0xFFFF
+push joaat("hello")
+push hashof("hello")
+push @main
+push GetEnum("true")
+
+SetLocalName 0 VehicleCount
+
+push GetEnum("VehicleCount")
+SetLocal VehicleCount
+
+SetStaticName 64 MetaDlcVehiclesAddress
+
+GetStatic MetaDlcVehiclesAddress
+SetLocal 0
+
+SetGlobalName 64 MetaDlcVehiclesAddress
+
+
+
+
+Return 0 0
+//<
+
+:main//>
+Function 0 11
+
+Return 0 0
+//<

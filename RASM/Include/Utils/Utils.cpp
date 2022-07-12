@@ -46,6 +46,26 @@ namespace Utils
 
         }
 
+        void LoadData(const string& path, vector<uint8_t>& out)
+        {
+            ifstream is(path, std::ios::in | std::ios::binary | std::ios::ate);
+
+            if (is.is_open())
+            {
+                is.seekg(0, is.end);
+                assert(is.tellg() <= 0xFFFFFFFF);
+                size_t datasize = static_cast<uint32_t>(is.tellg());
+                is.seekg(0, is.beg);
+
+                out.resize(datasize, 0);
+                is.read(reinterpret_cast<char*>(out.data()), datasize);
+                is.close();
+            }
+            else
+                Throw("File " + path + " Could Not Be Opened");
+
+        }
+
         bool CheckFopenFile(const char* path, FILE* file)
         {
             if (file == NULL)
@@ -54,6 +74,19 @@ namespace Utils
                 return false;
             }
             return true;
+        }
+
+        string MakeDirAbsolute(filesystem::path p)
+        {
+            string pStr = p.string();
+
+            if (pStr[pStr.size() - 1] == '\\' || pStr[pStr.size() - 1] == '/')
+                pStr.resize(pStr.size() - 1);
+
+            if (p.is_relative())
+                return filesystem::current_path().string() + "/" + pStr;
+
+            return p.string();
         }
 
         bool CreateFileWithDir(const char* filePath, FILE*& file)
@@ -107,6 +140,10 @@ namespace Utils
         string GetLastFileWithVersion(string str, int64_t version)
         {
             string out = "";
+
+            if (!filesystem::exists("Data/"))
+                return out;
+
             for (auto& entry : std::filesystem::directory_iterator("Data/"))
             {
                 if (entry.exists())
@@ -189,6 +226,7 @@ namespace Utils
                     Utils::System::Warn("Failed parsing opcodes at line " + std::to_string(index) + " in file " + path);
                 }
 
+                
 
                 return true;
             }

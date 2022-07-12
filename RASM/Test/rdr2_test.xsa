@@ -1,0 +1,44 @@
+SetSignature 0xDE76F103
+:EntryPoint//>
+Function 0 2//PC: 0
+Call @Function_0(main)//PC: 5, CI: 67
+Return 0 0//PC: 9
+//<
+
+:Function_1(PrintSubtitle)//>
+Function 1 4//PC: 12
+PushF 1//PC: 30
+PushF 2//PC: 31
+PushF 3//PC: 32
+CallNative _0x6C4DBF553885F9EB 3 1//PC: 33, NI: 0
+SetLocal 3//PC: 37
+Push 0//PC: 39
+PushString "STRING_LITERAL"//PC: 40, SI: 0
+GetLocal 0//PC: 42
+CallNative _CREATE_VAR_STRING 3 1//PC: 44, NI: 1, N: _0xFA925AC00EB830B9
+CallNative _UILOG_SET_CACHED_OBJECTIVE 1 0//PC: 48, NI: 2, N: _0xFA233F8FE190514C
+CallNative _UILOG_PRINT_CACHED_OBJECTIVE 0 0//PC: 52, NI: 3, N: _0xE9990552DEC71600
+CallNative _UILOG_CLEAR_HAS_DISPLAYED_CACHED_OBJECTIVE 0 0//PC: 56, NI: 4, N: _0xA3108D6981A5CADB
+CallNative _UILOG_CLEAR_CACHED_OBJECTIVE 0 0//PC: 60, NI: 5, N: _0xDFF0D417277B41F8
+Return 1 0//PC: 64
+//<
+
+:Function_0(main)//>
+Function 0 3//PC: 67
+Push 1337//PC: 76
+SetLocal 2//PC: 79
+Push 1//PC: 81
+JumpFalse @Label_0//PC: 82, JI: 102
+
+:Label_1
+PushString "hello world"//PC: 85, SI: 15
+Call @Function_1(PrintSubtitle)//PC: 88, CI: 12
+Push 0//PC: 92
+CallNative WAIT 1 0//PC: 93, NI: 6, N: _0x4EDE34FBADD967A6
+Push 1//PC: 97
+Not//PC: 98
+JumpFalse @Label_1//PC: 99, JI: 85
+
+:Label_0
+Return 0 0//PC: 102
+//<

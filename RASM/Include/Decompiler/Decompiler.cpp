@@ -10,18 +10,17 @@ using namespace std;
 
 void DecompileBase::CheckFunctionUnused(char* unusedFunctionName, uint32_t len)
 {
-    static uint32_t unusedFunctionCounter = 0;
-    static bool isFirstFunction = true;
-    static auto functionInc = UsedFunctions.begin();
-
     int64_t pc = CurrentReadPos - CodeData.data();
 
-    if (functionInc != UsedFunctions.end())
+    if (IsFirstFunction && FunctionInc != UsedFunctions.begin())
+        FunctionInc = UsedFunctions.begin();
+
+    if (FunctionInc != UsedFunctions.end())
     {
 
-        if (pc != *functionInc)
+        if (pc != *FunctionInc)
         {
-            if (isFirstFunction)
+            if (IsFirstFunction)
             {
                 if (unusedFunctionName == nullptr)
                     Out += ":EntryPoint//>\r\n";
@@ -37,7 +36,7 @@ void DecompileBase::CheckFunctionUnused(char* unusedFunctionName, uint32_t len)
                 if (unusedFunctionName == nullptr)
                 {
                     Out += "//<\r\n\r\n:UnusedFunction_";
-                    Out += to_string(unusedFunctionCounter++);
+                    Out += to_string(UnusedFunctionCounter++);
                     Out += "//> pCall Location: ";
                     Out += to_string(pc);
                     Out += "\r\n";
@@ -53,11 +52,11 @@ void DecompileBase::CheckFunctionUnused(char* unusedFunctionName, uint32_t len)
             }
         }
         else
-            functionInc++;
+            FunctionInc++;
 
     }
 
-    isFirstFunction = false;
+    IsFirstFunction = false;
 }
 
 bool DecompileBase::FindFunctionFromCallPos(uint8_t* position, uint8_t*& outPosition)
@@ -92,8 +91,8 @@ void DecompileBase::ParseStaticData()
 
     for (uint32_t i = 0; i < CommonHeader.StaticsCount; i++)
     {
-        int64_t value = Is64Bit ? 
-            Reader->ReadInt32(reinterpret_cast<uint8_t*>((int64_t*)CommonHeader.StaticsOffset + i)) : 
+        int64_t value = Is64Bit ?
+            Reader->ReadInt32(reinterpret_cast<uint8_t*>((int64_t*)CommonHeader.StaticsOffset + i)) :
             Reader->ReadInt32(reinterpret_cast<uint8_t*>(CommonHeader.StaticsOffset + i));
         if (value != 0)
         {
@@ -271,7 +270,7 @@ void DecompileBase::GetCode(const string& asmOutPath)
     }
 
 
-    if (CommonHeader.ParameterCount != 0 )
+    if (CommonHeader.ParameterCount != 0)
     {
         OutHeader += "SetParamCount ";
         OutHeader += to_string(CommonHeader.ParameterCount);
@@ -713,7 +712,7 @@ void DecompileBase::GetString(const std::string& stringOutPath)
 #pragma region Opcodes
 void DecompileBase::ParseCallLabel(map<uint32_t, string>::iterator& labelInc, uint32_t index)
 {
-    if (labelInc != reinterpret_cast<const map<uint32_t, string>*>(labelInc._Getcont())->end())
+    if (labelInc != CallLabelIndexes.end())
     {
         //assert(LabelInc->first >= Index);
 
@@ -729,7 +728,8 @@ void DecompileBase::ParseCallLabel(map<uint32_t, string>::iterator& labelInc, ui
 
 void DecompileBase::ParseJumpLabel(map<uint32_t, uint32_t>::iterator& labelInc, uint32_t index)
 {
-    if (labelInc != reinterpret_cast<const map<uint32_t, uint32_t>*>(labelInc._Getcont())->end())
+    
+    if (labelInc != JumpLabelIndexes.end())
     {
         //assert(LabelInc->first >= Index);
         if (labelInc->first == index)
@@ -762,7 +762,7 @@ void DecompileBase::ReadSwitch()
 }
 
 #pragma region Print
-inline void DecompileBase::PrintNop()
+void DecompileBase::PrintNop()
 {
     if (Options::DecompileOptions::DecompileNops)
     {
@@ -770,14 +770,14 @@ inline void DecompileBase::PrintNop()
     }
 }
 
-inline void DecompileBase::PrintSingleOp(const char* opName)
+void DecompileBase::PrintSingleOp(const char* opName)
 {
     Out += opName;
     PrintVerbosePC();
     Out += "\r\n";
 }
 
-inline void DecompileBase::PrintSingleParamOp(const char* opName, int value)
+void DecompileBase::PrintSingleParamOp(const char* opName, int value)
 {
     Out += opName;
     Out += " ";
@@ -787,7 +787,7 @@ inline void DecompileBase::PrintSingleParamOp(const char* opName, int value)
     Out += "\r\n";
 }
 
-inline void DecompileBase::PrintPush(int value, int value1, int value2)
+void DecompileBase::PrintPush(int value, int value1, int value2)
 {
     if (value1 == -1)
     {
@@ -816,7 +816,7 @@ inline void DecompileBase::PrintPush(int value, int value1, int value2)
     Out += "\r\n";
 }
 
-inline void DecompileBase::PrintPushF(float value)
+void DecompileBase::PrintPushF(float value)
 {
     Out += "PushF ";
     Out += std::to_string(value);
@@ -825,7 +825,7 @@ inline void DecompileBase::PrintPushF(float value)
     Out += "\r\n";
 }
 
-inline void DecompileBase::PrintReturn(int popCount, int returnCount)
+void DecompileBase::PrintReturn(int popCount, int returnCount)
 {
     Out += "Return ";
     Out += std::to_string(popCount);
@@ -837,7 +837,7 @@ inline void DecompileBase::PrintReturn(int popCount, int returnCount)
 }
 
 //used only by rdr and gta4
-inline void DecompileBase::PrintPushString(char* str, int size)
+void DecompileBase::PrintPushString(char* str, int size)
 {
     Out += "PushString \"";
     //Out += Utils::DataConversion::StringToDataString(std::string(str, size));
@@ -850,7 +850,7 @@ inline void DecompileBase::PrintPushString(char* str, int size)
 
 }
 
-inline void DecompileBase::PrintPushStringS(int index)
+void DecompileBase::PrintPushStringS(int index)
 {
 
     Out += "PushString \"";
@@ -870,7 +870,7 @@ inline void DecompileBase::PrintPushStringS(int index)
 
 }
 
-inline void DecompileBase::PrintFunction(int paramCount, int varCount, char* name, int nameLength)
+void DecompileBase::PrintFunction(int paramCount, int varCount, char* name, int nameLength)
 {
     if (nameLength)
         CheckFunctionUnused(name, nameLength);
@@ -887,7 +887,7 @@ inline void DecompileBase::PrintFunction(int paramCount, int varCount, char* nam
     Out += "\r\n";
 }
 
-inline void DecompileBase::PrintCallNative(uint32_t nativeIndex, int32_t nativeParamCount, int32_t nativeRetCount, bool rawNative)
+void DecompileBase::PrintCallNative(uint32_t nativeIndex, int32_t nativeParamCount, int32_t nativeRetCount, bool rawNative)
 {
     Out += "CallNative ";
 
@@ -976,7 +976,7 @@ inline void DecompileBase::PrintCallNative(uint32_t nativeIndex, int32_t nativeP
     Out += "\r\n";
 }
 
-inline void DecompileBase::PrintJump(const char* opName, uint32_t index)
+void DecompileBase::PrintJump(const char* opName, uint32_t index)
 {
     Out += opName;
     Out += " @Label_";
@@ -993,7 +993,7 @@ inline void DecompileBase::PrintJump(const char* opName, uint32_t index)
     Out += "\r\n";
 }
 
-inline void DecompileBase::PrintSwitch(std::vector<std::pair<int32_t, uint32_t>> caseAndIndex)
+void DecompileBase::PrintSwitch(std::vector<std::pair<int32_t, uint32_t>> caseAndIndex)
 {
     Out += "Switch ";
 
@@ -1023,7 +1023,7 @@ inline void DecompileBase::PrintSwitch(std::vector<std::pair<int32_t, uint32_t>>
 
 }
 
-inline void DecompileBase::PrintCall(uint32_t index)
+void DecompileBase::PrintCall(uint32_t index)
 {
     Out += "Call @";
     Out += CallLabelIndexes[index];
@@ -1038,7 +1038,7 @@ inline void DecompileBase::PrintCall(uint32_t index)
     Out += "\r\n";
 }
 
-inline void DecompileBase::PrintPushArray(uint8_t* data, uint32_t size)
+void DecompileBase::PrintPushArray(uint8_t* data, uint32_t size)
 {
     Out += "PushArray ";
     Out += Utils::DataConversion::DataToHex(data, size);
@@ -1047,7 +1047,7 @@ inline void DecompileBase::PrintPushArray(uint8_t* data, uint32_t size)
     Out += "\r\n";
 }
 
-inline void DecompileBase::PrintVerbosePC()
+void DecompileBase::PrintVerbosePC()
 {
     if (Options::DecompileOptions::Verbose)
     {
@@ -1085,7 +1085,7 @@ void DecompileGTAIV::OpenScript(vector<uint8_t>& data)
 
     switch (format)
     {
-    case SCRFlag::CompressedEncrypted: 
+    case SCRFlag::CompressedEncrypted:
     {
         uint32_t CompressedSize = Reader->ReadUInt32(CurrentReadPos);
         CurrentReadPos += 4;
@@ -1109,8 +1109,8 @@ void DecompileGTAIV::OpenScript(vector<uint8_t>& data)
 
         CodeData.resize(CommonHeader.CodeLength);
     }
-        break;
-    case SCRFlag::Encrypted: 
+    break;
+    case SCRFlag::Encrypted:
         if (!Utils::Crypt::AES_Decrypt(CurrentReadPos, CommonHeader.CodeLength, GTAIVKey))
             Utils::System::Throw("SCO Decryption Failed");
 
@@ -1126,14 +1126,14 @@ void DecompileGTAIV::OpenScript(vector<uint8_t>& data)
                 Utils::System::Throw("SCO Decryption Failed");
         }
         //intentional no break
-    case SCRFlag::Standard: 
+    case SCRFlag::Standard:
     {
-        
+
         CodeData.resize(CommonHeader.CodeLength);
         memcpy_s(CodeData.data(), CodeData.size(), CurrentReadPos, CommonHeader.CodeLength);
 
         StaticsAndGlobals.resize(CommonHeader.StaticsCount * 4 + CommonHeader.GlobalsCount * 4);
-        
+
 
         memcpy_s(StaticsAndGlobals.data(), StaticsAndGlobals.size(), CurrentReadPos + CommonHeader.CodeLength, StaticsAndGlobals.size());
 
@@ -1141,7 +1141,7 @@ void DecompileGTAIV::OpenScript(vector<uint8_t>& data)
         CommonHeader.GlobalsOffset = (uint32_t*)(StaticsAndGlobals.data() + CommonHeader.StaticsCount * 4);
 
     }
-        break;
+    break;
     }
 
 
@@ -1460,14 +1460,7 @@ uint32_t DecompileRDR::GetObjectStartPageOffset(RSCFlag flags)
 #pragma endregion
 
 #pragma region DecompileGTAVConsole
-DecompileGTAVConsole::DecompileGTAVConsole() : DecompileBase()
-{
-    Is64Bit = false;
-    DecompileTarget = GameTarget::GTAV;
-    MaxPageSize = 16384;
-    SetEndian(false);
-    SetOps(_CommonOpsIndexedByTargetOps);
-}
+
 
 void DecompileGTAVConsole::OpenScript(vector<uint8_t>& data)
 {
@@ -1664,14 +1657,7 @@ bool DecompileGTAVConsole::CheckNextOpcodeForStack(int32_t pushValue)
 
 #pragma region DecompileGTAVPC
 
-DecompileGTAVPC::DecompileGTAVPC() : DecompileGTAVConsole()
-{
-    Is64Bit = true;
-    DecompileTarget = GameTarget::GTAV;
-    MaxPageSize = 16384;
-    SetEndian(true);
-    SetOps(_CommonOpsIndexedByTargetOps);
-}
+
 
 void DecompileGTAVPC::ReadCallNative()
 {
@@ -1760,28 +1746,21 @@ void DecompileGTAVPC::OpenScript(vector<uint8_t>& data)
 
 #pragma region DecompileRDR2Console
 
-DecompileRDR2Console::DecompileRDR2Console() : DecompileGTAVPC()
-{
-    Is64Bit = true;
-    DecompileTarget = GameTarget::RDR2;
-    MaxPageSize = 16384;
-    SetEndian(true);
-    SetOps(_CommonOpsIndexedByTargetOps);
-}
+
 
 void DecompileRDR2Console::LoadOpcodes()
 {
     if (Options::DecompileOptions::OpcodeVersion == 0)
     {
         bool triggered = false;
-        uint32_t size = lengthof(_CommonOpsIndexedByTargetOps);
+        uint32_t size = 255;
         for (int i = 0; i < size; i++)
         {
-            if (triggered || _CommonOpsIndexedByTargetOps[i] == Opcode::GetStaticP3)
+            if (triggered || GetOps()[i] == Opcode::GetStaticP3)
             {
                 if (i + 3 < size)
                 {
-                    _CommonOpsIndexedByTargetOps[i] = _CommonOpsIndexedByTargetOps[i + 3];
+                    GetOps()[i] = GetOps()[i + 3];
                     triggered = true;
                 }
             }
@@ -1818,25 +1797,31 @@ void DecompileRDR2Console::OpenScript(vector<uint8_t>& data)
     CommonHeader.StaticsOffset = header->StaticsOffset.GetPtr<uint32_t>(CommonHeader.HeaderPtr);
     CommonHeader.Signature = header->Signature;
 
+
+
+
+
     if (Options::DecompileOptions::Verbose)
     {
-        cout << CommonHeader.ScriptName << " ScriptName" << endl;
-        cout << CommonHeader.NativesCount << " NativesCount" << endl;
-        cout << CommonHeader.GlobalsCount << " GlobalsCount" << endl;
-        cout << CommonHeader.CodeLength << " CodeLength" << endl;
-        cout << CommonHeader.TotalStringLength << " TotalStringLength" << endl;
+        VerboseComment("//Script Name: ", CommonHeader.ScriptName);
+        VerboseComment("//Natives Count: ", CommonHeader.NativesCount);
+        VerboseComment("//Globals Count: ", CommonHeader.GlobalsCount);
+        VerboseComment("//Code Length: ", CommonHeader.CodeLength);
+        VerboseComment("//String Length: ", CommonHeader.TotalStringLength);
+        VerboseComment("//Page Map Offset: ", header->PageMapOffset.Value & 0x0FFFFFFF);
+        VerboseComment("//Script Name Offset: ", header->ScriptNameOffset.Value & 0x0FFFFFFF);
+        VerboseComment("//Globals Offset: ", header->GlobalsOffset.Value & 0x0FFFFFFF);
+        VerboseComment("//Natives Offset: ", header->NativesOffset.Value & 0x0FFFFFFF);
+        VerboseComment("//Statics Offset: ", header->StaticsOffset.Value & 0x0FFFFFFF);
+        VerboseComment("//Code Blocks Offset: ", header->CodeBlocksOffset.Value & 0x0FFFFFFF);
+        VerboseComment("//String Blocks Offset: ", header->StringBlocksOffset.Value & 0x0FFFFFFF);
+        VerboseComment("//Unk 8: ", header->Unk8);
+        VerboseComment("//Unk 8 Ptr Offset: ", header->Unk8Ptr.Value & 0x0FFFFFFF);
+        VerboseComment("//Unk 9: ", header->Unk9);
+        VerboseComment("//Unk 9 Ptr Offset: ", header->Unk9Ptr.Value & 0x0FFFFFFF);
+        VerboseComment("//Unk 10: ", header->Unk10);
+        VerboseComment("//Unk 10 Ptr Offset: ", header->Unk10Ptr.Value & 0x0FFFFFFF);
 
-        cout << (header->PageMapOffset.Value & 0x0FFFFFFF) << " PageMapOffset " << endl;
-        cout << (header->ScriptNameOffset.Value & 0x0FFFFFFF) << " ScriptNameOffset " << endl;
-        cout << (header->GlobalsOffset.Value & 0x0FFFFFFF) << " GlobalsOffset " << endl;
-        cout << (header->NativesOffset.Value & 0x0FFFFFFF) << " NativesOffset " << endl;
-        cout << (header->StaticsOffset.Value & 0x0FFFFFFF) << " StaticsOffset " << endl;
-        cout << (header->CodeBlocksOffset.Value & 0x0FFFFFFF) << " CodeBlocksOffset " << endl;
-        cout << (header->StringBlocksOffset.Value & 0x0FFFFFFF) << " StringBlocksOffset " << endl;
-
-        cout << (header->Unk8Ptr.Value & 0x0FFFFFFF) << " unk8ptr " << header->Unk8 << endl;
-        cout << (header->Unk9Ptr.Value & 0x0FFFFFFF) << " unk9ptr " << header->Unk9 << endl;
-        cout << (header->Unk10Ptr.Value & 0x0FFFFFFF) << " unk10ptr " << header->Unk10 << endl;
     }
 
     uint64_t* codeBlocksOffset = header->CodeBlocksOffset.GetPtr<uint64_t>(CommonHeader.HeaderPtr);
@@ -1845,7 +1830,7 @@ void DecompileRDR2Console::OpenScript(vector<uint8_t>& data)
     {
         CommonHeader.CodeBlockOffsets[i] = RelPtr64(*(codeBlocksOffset + i)).GetPtr<uint8_t>(CommonHeader.HeaderPtr);
         if (Options::DecompileOptions::Verbose)
-            cout << (*(codeBlocksOffset + i) & 0x0FFFFFFF) << " Code Block " << endl;
+            VerboseComment("//Code Block Offset: ", *(codeBlocksOffset + i) & 0x0FFFFFFF);
     }
 
     uint64_t* stringBlocksOffset = header->StringBlocksOffset.GetPtr<uint64_t>(CommonHeader.HeaderPtr);
@@ -1855,7 +1840,7 @@ void DecompileRDR2Console::OpenScript(vector<uint8_t>& data)
         CommonHeader.StringBlockOffsets[i] = RelPtr64(*(stringBlocksOffset + i)).GetPtr<char>(CommonHeader.HeaderPtr);
 
         if (Options::DecompileOptions::Verbose)
-            cout << (*(stringBlocksOffset + i) & 0x0FFFFFFF) << " String Block " << endl;
+            VerboseComment("//String Block Offset: ", *(stringBlocksOffset + i) & 0x0FFFFFFF);
     }
 
     for (int i = 0; i < CommonHeader.NativesCount; i++)
@@ -1876,8 +1861,14 @@ void DecompileRDR2Console::LogSwitchLabel()
     for (uint32_t i = 0; i < caseCount; i++)
     {
         uint8_t* index = CurrentReadPos + 3 + i * 6;
+        short jPos = 0;
 
-        JumpLabelIndexes.insert({ (index + 6) - CodeData.data() + Reader->ReadInt16(index + 4), JumpLabelIndexes.size() });
+        if (index - CodeData.data() < CodeData.size())
+            jPos = Reader->ReadInt16(index + 4);
+        else
+            Utils::System::Warn("Switch over filesize");
+
+        JumpLabelIndexes.insert({ (index + 4 + 2) - CodeData.data() + jPos, JumpLabelIndexes.size() });
 
     }
 }
@@ -1911,33 +1902,25 @@ void DecompileRDR2Console::ReadSwitch()
 
 #pragma region DecompileRDR2PC
 
-DecompileRDR2PC::DecompileRDR2PC() : DecompileRDR2Console()
-{
-    Is64Bit = true;
-    DecompileTarget = GameTarget::RDR2;
-    MaxPageSize = 16384;
-    SetEndian(true);
-    SetOps(_CommonOpsIndexedByTargetOps);
-}
-
 void DecompileRDR2PC::LoadOpcodes()
 {
+
+
     if (Options::DecompileOptions::OpcodeVersion == 0)
     {
         bool triggered = false;
-        uint32_t size = lengthof(_CommonOpsIndexedByTargetOps);
+        uint32_t size = 255;
         for (int i = 0; i < size; i++)
         {
-            if (triggered || _CommonOpsIndexedByTargetOps[i] == Opcode::GetStaticP3)
+            if (triggered || GetOps()[i] == Opcode::GetStaticP3)
             {
-                _CommonOpsIndexedByTargetOps[i] = Opcode::Uninitialized;
+                GetOps()[i] = Opcode::Uninitialized;
                 triggered = true;
             }
         }
 
         return;
     }
-
 
     string opcodeFile = Utils::IO::GetLastFileWithVersion(GetOptionsDataName("Opcodes"), Options::DecompileOptions::OpcodeVersion);
 
@@ -1964,8 +1947,8 @@ void DecompileRDR2PC::LoadOpcodes()
 
             }
 
-            memcpy_s(_CommonOpsIndexedByTargetOps, 255 * sizeof(Opcode), temp, 255 * sizeof(Opcode));
-            SetOps(_CommonOpsIndexedByTargetOps);
+            SetOps(temp);
+
         }
         else
             Utils::System::Warn("Could not process opcode file " + opcodeFile + " ... using default ops");
@@ -2007,43 +1990,42 @@ void DecompileRDR2PC::OpenScript(vector<uint8_t>& data)
 
     if (Options::DecompileOptions::Verbose)
     {
-
-
-        cout << CommonHeader.ScriptName << " ScriptName" << endl;
-        cout << CommonHeader.NativesCount << " NativesCount" << endl;
-        cout << CommonHeader.GlobalsCount << " GlobalsCount" << endl;
-        cout << CommonHeader.CodeLength << " CodeLength" << endl;
-        cout << CommonHeader.TotalStringLength << " TotalStringLength" << endl;
-
-        cout << (header->PageMapOffset.Value & 0x0FFFFFFF) << " PageMapOffset " << endl;
-        cout << (header->ScriptNameOffset.Value & 0x0FFFFFFF) << " ScriptNameOffset " << endl;
-        cout << (header->GlobalsOffset.Value & 0x0FFFFFFF) << " GlobalsOffset " << endl;
-        cout << (header->NativesOffset.Value & 0x0FFFFFFF) << " NativesOffset " << endl;
-        cout << (header->StaticsOffset.Value & 0x0FFFFFFF) << " StaticsOffset " << endl;
-        cout << (header->CodeBlocksOffset.Value & 0x0FFFFFFF) << " CodeBlocksOffset " << endl;
-        cout << (header->StringBlocksOffset.Value & 0x0FFFFFFF) << " StringBlocksOffset " << endl;
-
-        cout << (header->Unk8Ptr.Value & 0x0FFFFFFF) << " unk8ptr " << header->Unk8 << endl;
-        cout << (header->Unk9Ptr.Value & 0x0FFFFFFF) << " unk9ptr " << header->Unk9 << endl;
-        cout << (header->Unk10Ptr.Value & 0x0FFFFFFF) << " unk10ptr " << header->Unk10 << endl;
+        VerboseComment("//Script Name: ", CommonHeader.ScriptName);
+        VerboseComment("//Natives Count: ", CommonHeader.NativesCount);
+        VerboseComment("//Globals Count: ", CommonHeader.GlobalsCount);
+        VerboseComment("//Code Length: ", CommonHeader.CodeLength);
+        VerboseComment("//String Length: ", CommonHeader.TotalStringLength);
+        VerboseComment("//Page Map Offset: ", header->PageMapOffset.Value & 0x0FFFFFFF);
+        VerboseComment("//Script Name Offset: ", header->ScriptNameOffset.Value & 0x0FFFFFFF);
+        VerboseComment("//Globals Offset: ", header->GlobalsOffset.Value & 0x0FFFFFFF);
+        VerboseComment("//Natives Offset: ", header->NativesOffset.Value & 0x0FFFFFFF);
+        VerboseComment("//Statics Offset: ", header->StaticsOffset.Value & 0x0FFFFFFF);
+        VerboseComment("//Code Blocks Offset: ", header->CodeBlocksOffset.Value & 0x0FFFFFFF);
+        VerboseComment("//String Blocks Offset: ", header->StringBlocksOffset.Value & 0x0FFFFFFF);
+        VerboseComment("//Unk 8: ", header->Unk8);
+        VerboseComment("//Unk 8 Ptr Offset: ", header->Unk8Ptr.Value & 0x0FFFFFFF);
+        VerboseComment("//Unk 9: ", header->Unk9);
+        VerboseComment("//Unk 9 Ptr Offset: ", header->Unk9Ptr.Value & 0x0FFFFFFF);
+        VerboseComment("//Unk 10: ", header->Unk10);
+        VerboseComment("//Unk 10 Ptr Offset: ", header->Unk10Ptr.Value & 0x0FFFFFFF);
     }
 
-    uint64_t* CodeBlocksOffset = header->CodeBlocksOffset.GetPtr<uint64_t>(CommonHeader.HeaderPtr);
+    uint64_t* codeBlocksOffset = header->CodeBlocksOffset.GetPtr<uint64_t>(CommonHeader.HeaderPtr);
     CommonHeader.CodeBlockOffsets.resize(CommonHeader.CodeBlocksCount);
     for (uint32_t i = 0; i < CommonHeader.CodeBlocksCount; i++)
     {
-        CommonHeader.CodeBlockOffsets[i] = RelPtr64(*(CodeBlocksOffset + i)).GetPtr<uint8_t>(CommonHeader.HeaderPtr);
+        CommonHeader.CodeBlockOffsets[i] = RelPtr64(*(codeBlocksOffset + i)).GetPtr<uint8_t>(CommonHeader.HeaderPtr);
         if (Options::DecompileOptions::Verbose)
-            cout << (*(CodeBlocksOffset + i) & 0x0FFFFFFF) << " Code Block " << endl;
+            VerboseComment("//Code Block Offset: ", *(codeBlocksOffset + i) & 0x0FFFFFFF);
     }
 
-    uint64_t* StringBlocksOffset = header->StringBlocksOffset.GetPtr<uint64_t>(CommonHeader.HeaderPtr);
+    uint64_t* stringBlocksOffset = header->StringBlocksOffset.GetPtr<uint64_t>(CommonHeader.HeaderPtr);
     CommonHeader.StringBlockOffsets.resize(CommonHeader.StringBlocksCount);
     for (uint32_t i = 0; i < CommonHeader.StringBlocksCount; i++)
     {
-        CommonHeader.StringBlockOffsets[i] = RelPtr64(*(StringBlocksOffset + i)).GetPtr<char>(CommonHeader.HeaderPtr);
+        CommonHeader.StringBlockOffsets[i] = RelPtr64(*(stringBlocksOffset + i)).GetPtr<char>(CommonHeader.HeaderPtr);
         if (Options::DecompileOptions::Verbose)
-            cout << (*(StringBlocksOffset + i) & 0x0FFFFFFF) << " String Block " << endl;
+            VerboseComment("//String Block Offset: ", *(stringBlocksOffset + i) & 0x0FFFFFFF);
     }
 
 

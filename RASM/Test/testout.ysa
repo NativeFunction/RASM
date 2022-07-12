@@ -1,0 +1,21 @@
+:EntryPoint//>
+Function 0 2//PC: 0
+Call @Function_0//PC: 5, CI: 49
+Push 1000//PC: 9
+Push -65536//PC: 12
+Push -65536//PC: 17
+Push -922937317//PC: 22
+Push -922937317//PC: 27
+Push 49//PC: 32
+Push 1//PC: 36
+Push 364//PC: 37
+SetLocal 0//PC: 40
+GetStatic 64//PC: 42
+SetLocal 0//PC: 44
+Return 0 0//PC: 46
+//<
+
+:Function_0//>
+Function 0 11//PC: 49
+Return 0 0//PC: 54
+//<

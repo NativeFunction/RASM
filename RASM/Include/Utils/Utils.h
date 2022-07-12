@@ -136,7 +136,9 @@ namespace Utils
 	namespace IO
 	{
 		void LoadData(const char* path, std::vector<uint8_t>& out);
+		void LoadData(const std::string& path, std::vector<uint8_t>& out);
 		bool CheckFopenFile(const char* path, FILE* file);
+		std::string MakeDirAbsolute(std::filesystem::path p);
 		bool CreateFileWithDir(const char* path, FILE*& file);
 		inline std::string GetDir(const std::string &Dir)
 		{

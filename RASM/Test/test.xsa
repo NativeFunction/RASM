@@ -1,0 +1,113 @@
+SetSignature 0xA239CD11
+//> Default Static Information
+SetStaticsCount 2
+SetDefaultStatic 0 327682053
+//<
+
+:EntryPoint//>
+Function 0 2//PC: 0
+Call @Function_0(main)//PC: 5, CI: 12
+Return 0 0//PC: 9
+//<
+
+:Function_0(main)//>
+Function 0 5//PC: 12
+Push 32773074//PC: 21
+SetLocal 2//PC: 26
+Push 1//PC: 28
+GetStaticP 0//PC: 29
+GetImmP 1//PC: 31
+SetLocal 3//PC: 33
+Push 0//PC: 35
+CmpNE//PC: 36
+Neg//PC: 37
+GetLocal 3//PC: 38
+pGet//PC: 40
+Xor//PC: 41
+Push 1//PC: 42
+And//PC: 43
+GetLocal 3//PC: 44
+pGet//PC: 46
+Xor//PC: 47
+GetLocal 3//PC: 48
+pSet//PC: 50
+Push 138371//PC: 51
+GetStaticP 0//PC: 55
+GetImmP 0//PC: 57
+SetLocal 3//PC: 59
+SetLocal 4//PC: 61
+GetLocal 3//PC: 63
+PushB2 13, 31//PC: 65
+GetLocal 4//PC: 68
+CallNative SET_BITS_IN_RANGE 4 0//PC: 70, NI: 0, N: _0x32094719
+Push 1//PC: 74
+GetStaticP 0//PC: 75
+GetImmP 0//PC: 77
+SetLocal 3//PC: 79
+Push 0//PC: 81
+CmpNE//PC: 82
+Neg//PC: 83
+GetLocal 3//PC: 84
+pGet//PC: 86
+Xor//PC: 87
+Push 1//PC: 88
+And//PC: 89
+GetLocal 3//PC: 90
+pGet//PC: 92
+Xor//PC: 93
+GetLocal 3//PC: 94
+pSet//PC: 96
+Push 0//PC: 97
+GetStaticP 0//PC: 98
+GetImmP 0//PC: 100
+SetLocal 3//PC: 102
+Push 0//PC: 104
+CmpNE//PC: 105
+Neg//PC: 106
+GetLocal 3//PC: 107
+pGet//PC: 109
+Xor//PC: 110
+Push 1//PC: 111
+And//PC: 112
+GetLocal 3//PC: 113
+pGet//PC: 115
+Xor//PC: 116
+GetLocal 3//PC: 117
+pSet//PC: 119
+Push 239//PC: 120
+GetStaticP 0//PC: 122
+GetImmP 0//PC: 124
+SetLocal 3//PC: 126
+SetLocal 4//PC: 128
+GetLocal 3//PC: 130
+PushB2 1, 8//PC: 132
+GetLocal 4//PC: 135
+CallNative SET_BITS_IN_RANGE 4 0//PC: 137, NI: 0, N: _0x32094719
+Push 1//PC: 141
+GetStaticP 0//PC: 142
+GetImmP 0//PC: 144
+SetLocal 3//PC: 146
+Push 0//PC: 148
+CmpNE//PC: 149
+Neg//PC: 150
+GetLocal 3//PC: 151
+pGet//PC: 153
+Xor//PC: 154
+Push 4096//PC: 155
+And//PC: 158
+GetLocal 3//PC: 159
+pGet//PC: 161
+Xor//PC: 162
+GetLocal 3//PC: 163
+pSet//PC: 165
+Push 200//PC: 166
+GetStaticP 0//PC: 168
+GetImmP 0//PC: 170
+SetLocal 3//PC: 172
+SetLocal 4//PC: 174
+GetLocal 3//PC: 176
+PushB2 1, 8//PC: 178
+GetLocal 4//PC: 181
+CallNative SET_BITS_IN_RANGE 4 0//PC: 183, NI: 0, N: _0x32094719
+Return 0 0//PC: 187
+//<

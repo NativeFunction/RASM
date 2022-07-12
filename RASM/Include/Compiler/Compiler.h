@@ -18,6 +18,15 @@
 #include "Compiler/StringPageBuilder.h"
 #include "Game/GameHeaders.h"
 
+enum class IntTokenContext
+{
+    Default,
+    Local,
+    Static,
+    Global
+
+};
+
 class CompileBase
 {
 private:
@@ -37,6 +46,12 @@ protected:
     //label, code loc of label (: prefix) aka (labels)
     std::unordered_map<std::string, uint32_t> LabelToCodePos;
     //label, code loc of needed label loc <code loc, isRelative (true->int16, false->int24)> (: prefix)  
+
+    std::unordered_map<std::string, int32_t> Enums;
+    std::unordered_map<std::string, int32_t> LocalNames;
+    std::unordered_map<std::string, int32_t> StaticNames;
+    std::unordered_map<std::string, int32_t> GlobalNames;
+
 
     typedef struct MissedLabel
     {
@@ -101,13 +116,13 @@ protected:
             CodeBuilder->PadPage(CommonOpsToTargetOps->at(Opcode::Nop));
     }
 
-    int StringToInt(std::string& str);
+    int StringToInt(std::string& str, IntTokenContext context = IntTokenContext::Default, uint32_t missedGetLabelLocPos = -1);
 
     Result<std::string> GetNextToken();
 
     std::string GetNextTokenInLine();
 
-    int32_t GetNextTokenAsInt();
+    int32_t GetNextTokenAsInt(IntTokenContext context = IntTokenContext::Default, uint32_t missedGetLabelLocPos = -1);
 
     float GetNextTokenAsFloat();
 
@@ -211,11 +226,12 @@ protected:
 
     virtual void AddSetStaticName();
     virtual void AddSetLocalName();
+    virtual void AddSetGlobalName();
     virtual void AddSetEnum();
     virtual void AddSetParamCount();
     virtual void AddSetSignature();
 
-    virtual void AddVarOp(Opcode byteOp, Opcode shortOp, Opcode int24Op = Opcode::Uninitialized);
+    virtual void AddVarOp(IntTokenContext context, Opcode byteOp, Opcode shortOp, Opcode int24Op = Opcode::Uninitialized);
 
     virtual void WriteScript(const std::string& scriptOutPath) = 0;
 public:
@@ -374,7 +390,7 @@ protected:
         }
     }
 
-    void AddVarOp(Opcode byteOp, Opcode shortOp, Opcode int24Op = Opcode::Uninitialized) override;
+    void AddVarOp(IntTokenContext context, Opcode byteOp, Opcode shortOp, Opcode int24Op = Opcode::Uninitialized) override;
 
     void WriteScript(const std::string& scriptOutPath) override;
 

@@ -31,7 +31,7 @@ void PrintBadCommandAndExit()
 
 void PrintBadPathAndExit(const string& Path)
 {
-    cerr << "Error: Path \"" << Path << "\" Is Not A Valid Path For Script Input Path.\n"
+    cerr << "Error: Path \"" << Path << "\" Is Not A Valid Path For Input Path.\n"
         << "Use -h For Help.\n";
     Utils::System::Pause();
     exit(EXIT_FAILURE);
@@ -56,6 +56,22 @@ void CheckRequiredPlatformOptions()
 
 }
 
+string GetScriptExtension()
+{
+    if (Options::GameTarget == GameTarget::GTAIV || Options::GameTarget == GameTarget::RDR_SCO)
+        return ".sca";
+    else
+    {
+        switch (Options::Platform)
+        {
+        case Platform::XBOX: return ".xsa";
+        case Platform::PSX: return ".csa";
+        case Platform::PC: return ".ysa";
+        }
+    }
+    return ".#sa";
+}
+
 int ParseCommandLine(int argc, const char* argv[])
 {
     int i = 0;
@@ -71,7 +87,8 @@ int ParseCommandLine(int argc, const char* argv[])
 
     for (uint32_t TopLevelOptionCounter = 0; TopLevelOptionCounter < 3; TopLevelOptionCounter++, i++)
     {
-        switch (Utils::Hashing::Joaat((argv[i] + 1)))
+        uint32_t optionHash = Utils::Hashing::Joaat(argv[i] + 1);
+        switch (optionHash)
         {
         case Utils::Hashing::JoaatConst("target"):
         {
@@ -107,6 +124,7 @@ int ParseCommandLine(int argc, const char* argv[])
         }
         break;
         case Utils::Hashing::JoaatConst("dec")://dec (decompile)
+        case Utils::Hashing::JoaatConst("decd")://decd (decompile dir)
         {
             CheckRequiredPlatformOptions();
 
@@ -117,8 +135,7 @@ int ParseCommandLine(int argc, const char* argv[])
 
             string ScriptInputPath = argv[i];
 
-            if (!boost::filesystem::exists(ScriptInputPath))
-                PrintBadPathAndExit(ScriptInputPath);
+            ScriptInputPath = Utils::IO::MakeDirAbsolute(ScriptInputPath);
 
             i++;
             string ScriptOutputPath = argv[i];
@@ -167,9 +184,6 @@ int ParseCommandLine(int argc, const char* argv[])
                 }
             }
 
-            vector<uint8_t> Data;
-            Utils::IO::LoadData((char*)ScriptInputPath.c_str(), Data);
-
             unique_ptr<DecompileBase> Decompiler;
 
             switch (Options::GameTarget)
@@ -196,27 +210,80 @@ int ParseCommandLine(int argc, const char* argv[])
             default: Utils::System::Throw("Invalid Target"); break;
             }
 
-            Decompiler->OpenScript(Data);
-
-            if (boost::filesystem::exists(ScriptOutputPath))
+            if (optionHash == Utils::Hashing::JoaatConst("decd"))//decd (decompile dir)
             {
-                if (!Options::DecompileOptions::Overwrite)
+
+                if (!filesystem::is_directory(ScriptInputPath))
+                    PrintBadPathAndExit(ScriptInputPath);
+
+                
+                auto dirIter = filesystem::directory_iterator(ScriptInputPath);
+
+                if (ScriptOutputPath[ScriptOutputPath.size() - 1] != '/' && ScriptOutputPath[ScriptOutputPath.size() - 1] != '\\')
+                    ScriptOutputPath.push_back('/');
+
+                vector<uint8_t> Data;
+
+                for (auto i : dirIter)
                 {
-                    cout << "Warning: Path \"" << ScriptOutputPath << "\" For Source Output Path Already Exists.\nDo You Want To Overwrite? Y = Yes, N = No:";
-                    char in;
-                    cin >> in;
-                    if (tolower(in) != 'y')
+                    if (i.is_regular_file())
                     {
-                        cerr << "Operation Canceled.\n";
-                        exit(0);
+                        if (i.path().has_stem())
+                        {
+                            string fileName = i.path().stem().string();
+                            cout << "Decompiling  " << fileName << endl;
+
+
+                            fileName += GetScriptExtension();
+
+                            Utils::IO::LoadData(i.path().string().c_str(), Data);
+
+                            Decompiler->OpenScript(Data);
+
+                            if (Options::DecompileOptions::OnlyDecompileStrings)
+                                Decompiler->GetString(ScriptOutputPath + fileName);
+                            else
+                                Decompiler->GetCode(ScriptOutputPath + fileName);
+
+                            Decompiler->CloseScript();
+
+
+                        }
+                        else
+                            Utils::System::Throw("File " + i.path().string() + " does not have a filename");
                     }
+
                 }
             }
-
-            if (Options::DecompileOptions::OnlyDecompileStrings)
-                Decompiler->GetString(ScriptOutputPath);
             else
-                Decompiler->GetCode(ScriptOutputPath);
+            {
+                if (!filesystem::exists(ScriptInputPath))
+                    PrintBadPathAndExit(ScriptInputPath);
+
+                vector<uint8_t> Data;
+                Utils::IO::LoadData((char*)ScriptInputPath.c_str(), Data);
+                Decompiler->OpenScript(Data);
+
+                if (boost::filesystem::exists(ScriptOutputPath))
+                {
+                    if (!Options::DecompileOptions::Overwrite)
+                    {
+                        cout << "Warning: Path \"" << ScriptOutputPath << "\" For Source Output Path Already Exists.\nDo You Want To Overwrite? Y = Yes, N = No:";
+                        char in;
+                        cin >> in;
+                        if (tolower(in) != 'y')
+                        {
+                            cerr << "Operation Canceled.\n";
+                            exit(0);
+                        }
+                    }
+                }
+
+                if (Options::DecompileOptions::OnlyDecompileStrings)
+                    Decompiler->GetString(ScriptOutputPath);
+                else
+                    Decompiler->GetCode(ScriptOutputPath);
+            }
 
         }
         return EXIT_SUCCESS;
@@ -385,6 +452,7 @@ int ParseCommandLine(int argc, const char* argv[])
                 << "\t-platform = {XBOX | PSX | PC}\n"
                 << "Operations:\n\n"
                 << "\t-dec = Decompile {Script Input Path} {Source Output Path} {Optional Decompile Flags}\n"
+                << "\t-decd = Decompile Directory {Script Folder Input Path} {Script Folder Output Path} {Optional Decompile Flags}\n"
                 << "\t-com = Compile {Source Input Path} {Script Output Path} {Optional Compile Flags}\n"
                 << "Decompile Flags:\n\n"
                 << "\t-v = Show Verbose Information\n"
