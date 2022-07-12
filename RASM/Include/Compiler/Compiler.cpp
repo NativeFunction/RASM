@@ -83,7 +83,7 @@ int CompileBase::StringToInt(std::string& str, IntTokenContext context, uint32_t
     }
 
 
-    if (str.size() > 0 && strl[1] >= 'a' && strl[1] <= 'z')
+    if (str.size() > 0 && strl[0] >= 'a' && strl[0] <= 'z')
     {
         switch (context)
         {
@@ -379,8 +379,6 @@ string CompileBase::GetNextTokenInLine()
 
     return tok.Data;
 }
-
-
 
 int32_t CompileBase::GetNextTokenAsInt(IntTokenContext context, uint32_t missedGetLabelLocPos)
 {
@@ -941,8 +939,8 @@ void CompileBase::AddSetStaticName()
     int32_t staticIndex = GetNextTokenAsInt();
     string staticName = GetNextTokenInLine();
 
-    if(staticName.size() > 0 && staticName[0] == '@')
-        Utils::System::Throw("Static name cannot start with @ " + to_string(line));
+    if(staticName.size() > 0 && (staticName[0] == '@' || (staticName[0] >= '0' && staticName[0] <= '9')))
+        Utils::System::Throw("Static name cannot start with " + to_string(staticName[0]) + " " + to_string(line));
 
 
     if (!StaticNames.contains(staticName))
@@ -959,8 +957,8 @@ void CompileBase::AddSetLocalName()
     int32_t localIndex = GetNextTokenAsInt();
     string localName = GetNextTokenInLine();
 
-    if (localName.size() > 0 && localName[0] == '@')
-        Utils::System::Throw("Local name cannot start with @ " + to_string(line));
+    if (localName.size() > 0 && (localName[0] == '@' || (localName[0] >= '0' && localName[0] <= '9')))
+        Utils::System::Throw("Local name cannot start with " + to_string(localName[0]) + " " + to_string(line));
 
     if (!LocalNames.contains(localName))
         LocalNames.insert({ localName, localIndex });
@@ -973,8 +971,8 @@ void CompileBase::AddSetGlobalName()
     int32_t globalIndex = GetNextTokenAsInt();
     string globalName = GetNextTokenInLine();
 
-    if (globalName.size() > 0 && globalName[0] == '@')
-        Utils::System::Throw("Global name cannot start with @ " + to_string(line));
+    if (globalName.size() > 0 && (globalName[0] == '@' || (globalName[0] >= '0' && globalName[0] <= '9')))
+        Utils::System::Throw("Global name cannot start with " + to_string(globalName[0]) + " " + to_string(line));
 
     if (!GlobalNames.contains(globalName))
         GlobalNames.insert({ globalName, globalIndex });
@@ -1638,24 +1636,30 @@ void CompileRDR::FixMissedLabels()
                 else
                     //codePos, codePosToPlace
                 {
-                    int callIndex = (res->second & 0x000F0000) >> 16;
-
-                    if (res->second <= 0x0FFFFF)
-                    {
-
-                        auto op = CommonOpsToTargetOps->find((Opcode)((int)Opcode::Call2 + callIndex));
-
-                        if (op == CommonOpsToTargetOps->end())
-                            Utils::System::Throw("Invalid Opcode on line " + to_string(line));
-
-                        uint8_t targetOp = op->second;
-                        CodeBuilder->SetUInt8(targetOp, j.Position - 1);
-
-                    }
+                    //pcall fix
+                    if(CodeBuilder->Data[j.Position - 1] == CommonOpsToTargetOps->at(Opcode::PushI24))
+                        CodeBuilder->SetUInt24(res->second, j.Position);
                     else
-                        Utils::System::Throw("Unsupported data size for op on line " + to_string(line));
+                    {
+                        int callIndex = (res->second & 0x000F0000) >> 16;
 
-                    CodeBuilder->SetUInt16(res->second, j.Position);
+                        if (res->second <= 0x0FFFFF)
+                        {
+
+                            auto op = CommonOpsToTargetOps->find((Opcode)((int)Opcode::Call2 + callIndex));
+
+                            if (op == CommonOpsToTargetOps->end())
+                                Utils::System::Throw("Invalid Opcode on line " + to_string(line));
+
+                            uint8_t targetOp = op->second;
+                            CodeBuilder->SetUInt8(targetOp, j.Position - 1);
+
+                        }
+                        else
+                            Utils::System::Throw("Unsupported data size for op on line " + to_string(line));
+
+                        CodeBuilder->SetUInt16(res->second, j.Position);
+                    }
                 }
 
             }
