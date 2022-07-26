@@ -15,6 +15,21 @@ void DecompileBase::CheckFunctionUnused(char* unusedFunctionName, uint32_t len)
     if (IsFirstFunction && FunctionInc != UsedFunctions.begin())
         FunctionInc = UsedFunctions.begin();
 
+
+
+    if (UsedFunctions.size() == 0 && IsFirstFunction)
+    {
+        if (unusedFunctionName == nullptr)
+            Out += "//<\r\n\r\n:EntryPoint//>\r\n";
+        else
+        {
+            Out += "//<\r\n\r\n:";
+            Out += string(unusedFunctionName, len);
+            Out += "//>\r\n";
+        }
+        IsFirstFunction = false;
+    }
+
     if (FunctionInc != UsedFunctions.end())
     {
 
@@ -23,13 +38,14 @@ void DecompileBase::CheckFunctionUnused(char* unusedFunctionName, uint32_t len)
             if (IsFirstFunction)
             {
                 if (unusedFunctionName == nullptr)
-                    Out += ":EntryPoint//>\r\n";
+                    Out += "//<\r\n\r\n:EntryPoint//>\r\n";
                 else
                 {
-                    Out += ":";
+                    Out += "//<\r\n\r\n:";
                     Out += string(unusedFunctionName, len);
                     Out += "//>\r\n";
                 }
+                IsFirstFunction = false;
             }
             else
             {
@@ -56,7 +72,6 @@ void DecompileBase::CheckFunctionUnused(char* unusedFunctionName, uint32_t len)
 
     }
 
-    IsFirstFunction = false;
 }
 
 bool DecompileBase::FindFunctionFromCallPos(uint8_t* position, uint8_t*& outPosition)
@@ -261,6 +276,8 @@ void DecompileBase::GetCode(const string& asmOutPath)
     OutHeader.reserve(1000000);
     Out.reserve(50000000);
 
+
+    OutHeader += "//> Header Information\r\n";
 
     if (CommonHeader.Signature != Signature::Undefined)
     {
