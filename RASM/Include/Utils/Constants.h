@@ -355,7 +355,7 @@ const std::unordered_map<std::string, Opcode> OpcodeNamesUpper =
     {"ITOF", Opcode::ItoF},
     {"FTOI", Opcode::FtoI},
     {"FTOV", Opcode::FtoV},
-    {"PUSHB", Opcode::PushB},
+    //{"PUSHB", Opcode::PushB},
     {"PUSHB2", Opcode::PushB2},
     {"PUSHB3", Opcode::PushB3},
     {"PUSH", Opcode::Push},
