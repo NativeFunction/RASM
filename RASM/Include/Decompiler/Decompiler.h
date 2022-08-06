@@ -38,6 +38,7 @@ protected:
 
     std::string OutHeader = "";
     std::string Out = "";
+    std::string VerboseHeaderInfo = "";
 
     std::vector<uint8_t> CodeData;
     std::vector<char> StringData;
@@ -63,26 +64,26 @@ protected:
 #pragma endregion
 
 #pragma region CTOR
-    DecompileBase(const Opcode commonOpsIndexedByTargetOps[255], GameTarget::GameTarget decompileTarget,
+    DecompileBase(GameTarget::GameTarget decompileTarget,
         uint32_t maxPageSize = 16384, bool isLittleEndian = false, bool is64Bit = false) :
         DecompileTarget(decompileTarget),
         MaxPageSize(maxPageSize),
         Is64Bit(is64Bit)
     {
         SetEndian(isLittleEndian);
-        SetOps(commonOpsIndexedByTargetOps);
         FunctionInc = UsedFunctions.begin();
+        VerboseHeaderInfo.reserve(512);
     }
 #pragma endregion
 
 #pragma region Utilities
     inline void VerboseComment(const std::string& s1, const std::string& s2)
     {
-        Out += s1; Out += s2; Out += "\r\n";
+        VerboseHeaderInfo += s1; VerboseHeaderInfo += s2; VerboseHeaderInfo += "\r\n";
     }
     inline void VerboseComment(const std::string& s1, const long long s2)
     {
-        Out += s1; Out += std::to_string(s2); Out += "\r\n";
+        VerboseHeaderInfo += s1; VerboseHeaderInfo += std::to_string(s2); VerboseHeaderInfo += "\r\n";
     }
     void ParseStaticData();
     virtual void LoadCodeData();
@@ -517,9 +518,9 @@ protected:
 
 public:
     DecompileGTAIV(GameTarget::GameTarget GameTarget) :
-        DecompileBase(_CommonOpsIndexedByTargetOps, GameTarget, 16384, true, false)
+        DecompileBase(GameTarget, 16384, true, false)
     {
-
+        SetOps(_CommonOpsIndexedByTargetOps);
     }
 
     void OpenScript(std::vector<uint8_t>& Data) override;
@@ -598,8 +599,10 @@ protected:
 
 public:
     DecompileRDR(GameTarget::GameTarget target) :
-        DecompileBase(_CommonOpsIndexedByTargetOps, target, 16384, false, false)
-    {}
+        DecompileBase(target, 16384, false, false)
+    {
+        SetOps(_CommonOpsIndexedByTargetOps);
+    }
 
     void OpenScript(std::vector<uint8_t>& data) override;
 
@@ -707,14 +710,14 @@ protected:
 
 public:
     DecompileGTAVConsole() :
-        DecompileBase(_CommonOpsIndexedByTargetOps, GameTarget::GTAV, 16384, false, false)
+        DecompileBase(GameTarget::GTAV, 16384, false, false)
     {
-
+        SetOps(_CommonOpsIndexedByTargetOps);
     }
 
-    DecompileGTAVConsole(const Opcode commonOpsIndexedByTargetOps[255], GameTarget::GameTarget decompileTarget,
+    DecompileGTAVConsole(GameTarget::GameTarget decompileTarget,
         uint32_t maxPageSize = 16384, bool isLittleEndian = false, bool is64Bit = false) :
-        DecompileBase(commonOpsIndexedByTargetOps, decompileTarget, maxPageSize, isLittleEndian, is64Bit)
+        DecompileBase(decompileTarget, maxPageSize, isLittleEndian, is64Bit)
     {
 
     }
@@ -741,12 +744,14 @@ protected:
 
 public:
     DecompileGTAVPC() :
-        DecompileGTAVConsole(_CommonOpsIndexedByTargetOps, GameTarget::GTAV, 16384, true, true)
-    {}
+        DecompileGTAVConsole(GameTarget::GTAV, 16384, true, true)
+    {
+        SetOps(_CommonOpsIndexedByTargetOps);
+    }
 
-    DecompileGTAVPC(const Opcode commonOpsIndexedByTargetOps[255], GameTarget::GameTarget decompileTarget,
+    DecompileGTAVPC(GameTarget::GameTarget decompileTarget,
         uint32_t maxPageSize = 16384, bool isLittleEndian = false, bool is64Bit = false) :
-        DecompileGTAVConsole(commonOpsIndexedByTargetOps, decompileTarget, maxPageSize, isLittleEndian, is64Bit)
+        DecompileGTAVConsole(decompileTarget, maxPageSize, isLittleEndian, is64Bit)
     {
 
     }
@@ -791,12 +796,14 @@ protected:
 
 public:
     DecompileRDR2Console() :
-        DecompileGTAVPC(_CommonOpsIndexedByTargetOps, GameTarget::RDR2, 16384, true, true)
-    {}
+        DecompileGTAVPC(GameTarget::RDR2, 16384, true, true)
+    {
+        SetOps(_CommonOpsIndexedByTargetOps);
+    }
 
-    DecompileRDR2Console(const Opcode commonOpsIndexedByTargetOps[255], GameTarget::GameTarget decompileTarget,
+    DecompileRDR2Console(GameTarget::GameTarget decompileTarget,
         uint32_t maxPageSize = 16384, bool isLittleEndian = false, bool is64Bit = false) :
-        DecompileGTAVPC(commonOpsIndexedByTargetOps, decompileTarget, maxPageSize, isLittleEndian, is64Bit)
+        DecompileGTAVPC(decompileTarget, maxPageSize, isLittleEndian, is64Bit)
     {}
 
     void OpenScript(std::vector<uint8_t>& data) override;
@@ -819,8 +826,10 @@ protected:
 
 public:
     DecompileRDR2PC() :
-        DecompileRDR2Console(_CommonOpsIndexedByTargetOps, GameTarget::RDR2, 16384, true, true)
-    {}
+        DecompileRDR2Console(GameTarget::RDR2, 16384, true, true)
+    {
+        SetOps(_CommonOpsIndexedByTargetOps);
+    }
 
     void OpenScript(std::vector<uint8_t>& data) override;
 

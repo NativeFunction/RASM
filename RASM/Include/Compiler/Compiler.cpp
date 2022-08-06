@@ -1912,10 +1912,8 @@ void CompileRDR::WriteScript(const std::string& scriptOutPath)
     case Platform::PSX:
     {
         vector<uint8_t> compressedData(totalSize);
-        uint32_t compressedSize = 0;
 
-        Utils::Compression::ZLIB_Compress(CurrentReadPos, totalSize, compressedData.data(), compressedSize);
-        compressedData.resize(compressedSize);
+        Utils::Compression::ZLIB_CompressNew(script.Data, compressedData);
 
         script.Data = compressedData;
     }

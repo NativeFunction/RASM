@@ -279,6 +279,9 @@ void DecompileBase::GetCode(const string& asmOutPath)
 
     OutHeader += "//> Header Information\r\n";
 
+
+    OutHeader += VerboseHeaderInfo;
+
     if (CommonHeader.Signature != Signature::Undefined)
     {
         OutHeader += "SetSignature 0x";
@@ -1161,12 +1164,10 @@ void DecompileGTAIV::OpenScript(vector<uint8_t>& data)
     break;
     }
 
-
     if (Options::DecompileOptions::Verbose)
     {
-        cout << CommonHeader.GlobalsCount << " GlobalsCount" << endl;
-        cout << CommonHeader.CodeLength << " CodeLength" << endl;
-
+        VerboseComment("//Code Length: ", CommonHeader.CodeLength);
+        VerboseComment("//Globals Count: ", CommonHeader.GlobalsCount);
     }
 
     //
@@ -1359,9 +1360,9 @@ void DecompileRDR::OpenScript(vector<uint8_t>& data)
     case Platform::PSX:
     {
         vector<uint8_t> decompressedData(decompressedSize);
-        uint32_t dSize = 0;
-        Utils::Compression::ZLIB_Decompress(CurrentReadPos, data.size() - sizeof(CSRHeader), decompressedData.data(), dSize);
-        decompressedSize = dSize;
+
+        Utils::Compression::ZLIB_DecompressNew(CurrentReadPos, data.size() - sizeof(CSRHeader), decompressedData);
+        decompressedSize = decompressedData.size();
 
         data.resize(decompressedSize);
         memcpy(data.data(), decompressedData.data(), decompressedSize);
@@ -1406,13 +1407,12 @@ void DecompileRDR::OpenScript(vector<uint8_t>& data)
 
     if (Options::DecompileOptions::Verbose)
     {
-        cout << CommonHeader.NativesCount << " NativesCount" << endl;
-        cout << CommonHeader.CodeLength << " CodeLength" << endl;
-
-        cout << (Reader->ReadUInt32(CurrentReadPos + offsetof(RDRHeader, PageMapOffset)) & 0x0FFFFFFF) << " PageMapOffset " << endl;
-        cout << (Reader->ReadUInt32(CurrentReadPos + offsetof(RDRHeader, NativesOffset)) & 0x0FFFFFFF) << " NativesOffset " << endl;
-        cout << (Reader->ReadUInt32(CurrentReadPos + offsetof(RDRHeader, StaticsOffset)) & 0x0FFFFFFF) << " StaticsOffset " << endl;
-        cout << (Reader->ReadUInt32(CurrentReadPos + offsetof(RDRHeader, CodeBlocksOffset)) & 0x0FFFFFFF) << " CodeBlocksOffset " << endl;
+        VerboseComment("//Natives Count: ", CommonHeader.NativesCount);
+        VerboseComment("//Code Length: ", CommonHeader.CodeLength);
+        VerboseComment("//Page Map Offset: ", Reader->ReadUInt32(CurrentReadPos + offsetof(RDRHeader, PageMapOffset)) & 0x0FFFFFFF);
+        VerboseComment("//Natives Offset: ", Reader->ReadUInt32(CurrentReadPos + offsetof(RDRHeader, NativesOffset)) & 0x0FFFFFFF);
+        VerboseComment("//Statics Offset: ", Reader->ReadUInt32(CurrentReadPos + offsetof(RDRHeader, StaticsOffset)) & 0x0FFFFFFF);
+        VerboseComment("//Code Blocks Offset: ", Reader->ReadUInt32(CurrentReadPos + offsetof(RDRHeader, CodeBlocksOffset)) & 0x0FFFFFFF);
 
     }
 
@@ -1420,14 +1420,14 @@ void DecompileRDR::OpenScript(vector<uint8_t>& data)
     CommonHeader.CodeBlocksCount = (CommonHeader.CodeLength + ((1 << 14) - 1)) >> 14;
     CommonHeader.CodeBlockOffsets.resize(CommonHeader.CodeBlocksCount);
 
-    uint32_t* codeBlocksListOffset = RelPtr(Reader->ReadUInt32(CurrentReadPos + offsetof(RDRHeader, CodeBlocksOffset))).GetPtr<uint32_t>(data.data());
+    uint32_t* codeBlocksOffset = RelPtr(Reader->ReadUInt32(CurrentReadPos + offsetof(RDRHeader, CodeBlocksOffset))).GetPtr<uint32_t>(data.data());
 
     for (uint32_t i = 0; i < CommonHeader.CodeBlocksCount; i++)
     {
-        RelPtr offset = RelPtr(Reader->ReadUInt32(reinterpret_cast<uint8_t*>(codeBlocksListOffset + i)));
+        RelPtr offset = RelPtr(Reader->ReadUInt32(reinterpret_cast<uint8_t*>(codeBlocksOffset + i)));
         CommonHeader.CodeBlockOffsets[i] = offset.GetPtr<uint8_t>(data.data());
         if (Options::DecompileOptions::Verbose)
-            cout << offset.GetValue() << " Code Block " << endl;
+            VerboseComment("//Code Block Offset: ", Reader->ReadUInt32(codeBlocksOffset + i) & 0x0FFFFFFF);
     }
 
 }
@@ -1508,20 +1508,18 @@ void DecompileGTAVConsole::OpenScript(vector<uint8_t>& data)
 
     if (Options::DecompileOptions::Verbose)
     {
-        cout << CommonHeader.ScriptName << " ScriptName" << endl;
-        cout << CommonHeader.NativesCount << " NativesCount" << endl;
-        cout << CommonHeader.GlobalsCount << " GlobalsCount" << endl;
-        cout << CommonHeader.CodeLength << " CodeLength" << endl;
-        cout << CommonHeader.TotalStringLength << " TotalStringLength" << endl;
-
-        cout << (Reader->ReadUInt32(CurrentReadPos + offsetof(GTAVHeader, PageMapOffset)) & 0x0FFFFFFF) << " PageMapOffset " << endl;
-        cout << (Reader->ReadUInt32(CurrentReadPos + offsetof(GTAVHeader, ScriptNameOffset)) & 0x0FFFFFFF) << " ScriptNameOffset " << endl;
-        cout << (Reader->ReadUInt32(CurrentReadPos + offsetof(GTAVHeader, GlobalsOffset)) & 0x0FFFFFFF) << " GlobalsOffset " << endl;
-        cout << (Reader->ReadUInt32(CurrentReadPos + offsetof(GTAVHeader, NativesOffset)) & 0x0FFFFFFF) << " NativesOffset " << endl;
-        cout << (Reader->ReadUInt32(CurrentReadPos + offsetof(GTAVHeader, StaticsOffset)) & 0x0FFFFFFF) << " StaticsOffset " << endl;
-        cout << (Reader->ReadUInt32(CurrentReadPos + offsetof(GTAVHeader, CodeBlocksOffset)) & 0x0FFFFFFF) << " CodeBlocksOffset " << endl;
-        cout << (Reader->ReadUInt32(CurrentReadPos + offsetof(GTAVHeader, StringBlocksOffset)) & 0x0FFFFFFF) << " StringBlocksOffset " << endl;
-
+        VerboseComment("//Script Name: ", CommonHeader.ScriptName);
+        VerboseComment("//Natives Count: ", CommonHeader.NativesCount);
+        VerboseComment("//Globals Count: ", CommonHeader.GlobalsCount);
+        VerboseComment("//Code Length: ", CommonHeader.CodeLength);
+        VerboseComment("//String Length: ", CommonHeader.TotalStringLength);
+        VerboseComment("//Page Map Offset: ", Reader->ReadUInt32(CurrentReadPos + offsetof(GTAVHeader, PageMapOffset)) & 0x0FFFFFFF);
+        VerboseComment("//Script Name Offset: ", Reader->ReadUInt32(CurrentReadPos + offsetof(GTAVHeader, ScriptNameOffset)) & 0x0FFFFFFF);
+        VerboseComment("//Globals Offset: ", Reader->ReadUInt32(CurrentReadPos + offsetof(GTAVHeader, GlobalsOffset)) & 0x0FFFFFFF);
+        VerboseComment("//Natives Offset: ", Reader->ReadUInt32(CurrentReadPos + offsetof(GTAVHeader, NativesOffset)) & 0x0FFFFFFF);
+        VerboseComment("//Statics Offset: ", Reader->ReadUInt32(CurrentReadPos + offsetof(GTAVHeader, StaticsOffset)) & 0x0FFFFFFF);
+        VerboseComment("//Code Blocks Offset: ", Reader->ReadUInt32(CurrentReadPos + offsetof(GTAVHeader, CodeBlocksOffset)) & 0x0FFFFFFF);
+        VerboseComment("//String Blocks Offset: ", Reader->ReadUInt32(CurrentReadPos + offsetof(GTAVHeader, StringBlocksOffset)) & 0x0FFFFFFF);
     }
 
 
@@ -1535,7 +1533,7 @@ void DecompileGTAVConsole::OpenScript(vector<uint8_t>& data)
         RelPtr offset = RelPtr(Reader->ReadUInt32(reinterpret_cast<uint8_t*>(codeBlocksOffset + i)));
         CommonHeader.CodeBlockOffsets[i] = offset.GetPtr<uint8_t>(CurrentReadPos);
         if (Options::DecompileOptions::Verbose)
-            cout << offset.GetValue() << " Code Block " << endl;
+            VerboseComment("//Code Block Offset: ", Reader->ReadUInt32(codeBlocksOffset + i) & 0x0FFFFFFF);
     }
 
     CommonHeader.StringBlocksCount = (CommonHeader.TotalStringLength + ((1 << 14) - 1)) >> 14;
@@ -1548,7 +1546,7 @@ void DecompileGTAVConsole::OpenScript(vector<uint8_t>& data)
         RelPtr offset = RelPtr(Reader->ReadUInt32(reinterpret_cast<uint8_t*>(stringBlocksOffset + i)));
         CommonHeader.StringBlockOffsets[i] = offset.GetPtr<char>(CurrentReadPos);
         if (Options::DecompileOptions::Verbose)
-            cout << offset.GetValue() << " String Block " << endl;
+            VerboseComment("//String Block Offset: ", *(stringBlocksOffset + i) & 0x0FFFFFFF);
     }
 
 }
@@ -1713,21 +1711,20 @@ void DecompileGTAVPC::OpenScript(vector<uint8_t>& data)
 
     if (Options::DecompileOptions::Verbose)
     {
-        cout << CommonHeader.ScriptName << " ScriptName" << endl;
-        cout << CommonHeader.NativesCount << " NativesCount" << endl;
-        cout << CommonHeader.GlobalsCount << " GlobalsCount" << endl;
-        cout << CommonHeader.CodeLength << " CodeLength" << endl;
-        cout << CommonHeader.TotalStringLength << " TotalStringLength" << endl;
-
-        cout << (header->PageMapOffset.Value & 0x0FFFFFFF) << " PageMapOffset " << endl;
-        cout << (header->ScriptNameOffset.Value & 0x0FFFFFFF) << " ScriptNameOffset " << endl;
-        cout << (header->GlobalsOffset.Value & 0x0FFFFFFF) << " GlobalsOffset " << endl;
-        cout << (header->NativesOffset.Value & 0x0FFFFFFF) << " NativesOffset " << endl;
-        cout << (header->StaticsOffset.Value & 0x0FFFFFFF) << " StaticsOffset " << endl;
-        cout << (header->CodeBlocksOffset.Value & 0x0FFFFFFF) << " CodeBlocksOffset " << endl;
-        cout << (header->StringBlocksOffset.Value & 0x0FFFFFFF) << " StringBlocksOffset " << endl;
-
+        VerboseComment("//Script Name: ", CommonHeader.ScriptName);
+        VerboseComment("//Natives Count: ", CommonHeader.NativesCount);
+        VerboseComment("//Globals Count: ", CommonHeader.GlobalsCount);
+        VerboseComment("//Code Length: ", CommonHeader.CodeLength);
+        VerboseComment("//String Length: ", CommonHeader.TotalStringLength);
+        VerboseComment("//Page Map Offset: ", header->PageMapOffset.Value & 0x0FFFFFFF);
+        VerboseComment("//Script Name Offset: ", header->ScriptNameOffset.Value & 0x0FFFFFFF);
+        VerboseComment("//Globals Offset: ", header->GlobalsOffset.Value & 0x0FFFFFFF);
+        VerboseComment("//Natives Offset: ", header->NativesOffset.Value & 0x0FFFFFFF);
+        VerboseComment("//Statics Offset: ", header->StaticsOffset.Value & 0x0FFFFFFF);
+        VerboseComment("//Code Blocks Offset: ", header->CodeBlocksOffset.Value & 0x0FFFFFFF);
+        VerboseComment("//String Blocks Offset: ", header->StringBlocksOffset.Value & 0x0FFFFFFF);
     }
+
 
     uint64_t* codeBlocksOffset = header->CodeBlocksOffset.GetPtr<uint64_t>(CommonHeader.HeaderPtr);
     CommonHeader.CodeBlockOffsets.resize(CommonHeader.CodeBlocksCount);
@@ -1735,7 +1732,7 @@ void DecompileGTAVPC::OpenScript(vector<uint8_t>& data)
     {
         CommonHeader.CodeBlockOffsets[i] = RelPtr64(*(codeBlocksOffset + i)).GetPtr<uint8_t>(CommonHeader.HeaderPtr);
         if (Options::DecompileOptions::Verbose)
-            cout << (*(codeBlocksOffset + i) & 0x0FFFFFFF) << " Code Block " << endl;
+            VerboseComment("//Code Block Offset: ", *(codeBlocksOffset + i) & 0x0FFFFFFF);
     }
 
     uint64_t* stringBlocksOffset = header->StringBlocksOffset.GetPtr<uint64_t>(CommonHeader.HeaderPtr);
@@ -1744,7 +1741,7 @@ void DecompileGTAVPC::OpenScript(vector<uint8_t>& data)
     {
         CommonHeader.StringBlockOffsets[i] = RelPtr64(*(stringBlocksOffset + i)).GetPtr<char>(CommonHeader.HeaderPtr);
         if (Options::DecompileOptions::Verbose)
-            cout << (*(stringBlocksOffset + i) & 0x0FFFFFFF) << " String Block " << endl;
+            VerboseComment("//String Block Offset: ", *(stringBlocksOffset + i) & 0x0FFFFFFF);
     }
 
 

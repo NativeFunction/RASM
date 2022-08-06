@@ -77,7 +77,6 @@ protected:
     char firstChar = 0;
 
 
-    uint8_t* CurrentReadPos = nullptr;
     size_t CurrentOpSize = 1;
 
     GameTarget::GameTarget GameTarget;
