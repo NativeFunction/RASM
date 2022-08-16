@@ -114,24 +114,24 @@ namespace Utils
 		int32_t __fastcall get_bits_in_range(int32_t value, uint32_t rangeStart, uint32_t rangeEnd);
 		uint32_t revbitmask(uint32_t index);
 		uint32_t bitCountToIntEnd(uint32_t rangeStart, uint32_t count);
-		inline uint8_t rotr(uint8_t x, int shift) { return _rotr8(x, shift); }
-		inline uint16_t rotr(uint16_t x, int shift) { return _rotr16(x, shift); }
-		inline uint32_t rotr(uint32_t x, int shift) { return _rotr(x, shift); }
-		inline uint64_t rotr(uint64_t x, int shift) { return _rotr64(x, shift); }
-		inline int8_t rotr(int8_t x, int shift) { return _rotr8(x, shift); }
-		inline int16_t rotr(int16_t x, int shift) { return _rotr16(x, shift); }
-		inline int32_t rotr(int32_t x, int shift) { return _rotr(x, shift); }
-		inline int64_t rotr(int64_t x, int shift) { return _rotr64(x, shift); }
-		inline float rotr(float x, int shift) { return DataConversion::IntToFloat(_rotr(*(uint32_t*)&x, shift)); }
-		inline uint8_t rotl(uint8_t x, int shift) { return _rotl8(x, shift); }
-		inline uint16_t rotl(uint16_t x, int shift) { return _rotl16(x, shift); }
-		inline uint32_t rotl(uint32_t x, int shift) { return _rotl(x, shift); }
-		inline uint64_t rotl(uint64_t x, int shift) { return _rotl64(x, shift); }
-		inline int8_t rotl(int8_t x, int shift) { return _rotl8(x, shift); }
-		inline int16_t rotl(int16_t x, int shift) { return _rotl16(x, shift); }
-		inline int32_t rotl(int32_t x, int shift) { return _rotl(x, shift); }
-		inline int64_t rotl(int64_t x, int shift) { return _rotl64(x, shift); }
-		inline float rotl(float x, int shift) { return DataConversion::IntToFloat(_rotl(*(uint32_t*)&x, shift)); }
+		inline uint8_t rotr(uint8_t x, int shift){ return std::rotr(x, shift); }
+		inline uint16_t rotr(uint16_t x, int shift) { return std::rotr(x, shift); }
+		inline uint32_t rotr(uint32_t x, int shift) { return std::rotr(x, shift); }
+		inline uint64_t rotr(uint64_t x, int shift) { return std::rotr(x, shift); }
+		inline int8_t rotr(int8_t x, int shift) { return   std::rotr<uint8_t, 0>(x, shift); }
+		inline int16_t rotr(int16_t x, int shift) { return std::rotr<uint16_t, 0>(x, shift); }
+		inline int32_t rotr(int32_t x, int shift) { return std::rotr<uint32_t, 0>(x, shift); }
+		inline int64_t rotr(int64_t x, int shift) { return std::rotr<uint64_t, 0>(x, shift); }
+		inline float rotr(float x, int shift) { return DataConversion::IntToFloat(std::rotr(*(uint32_t*)&x, shift)); }
+		inline uint8_t rotl(uint8_t x, int shift) { return std::rotl(x, shift); }
+		inline uint16_t rotl(uint16_t x, int shift) { return std::rotl(x, shift); }
+		inline uint32_t rotl(uint32_t x, int shift) { return std::rotl(x, shift); }
+		inline uint64_t rotl(uint64_t x, int shift) { return std::rotl(x, shift); }
+		inline int8_t rotl(int8_t x, int shift) { return std::rotl<uint8_t, 0>(x, shift); }
+		inline int16_t rotl(int16_t x, int shift) { return std::rotl<uint16_t, 0>(x, shift); }
+		inline int32_t rotl(int32_t x, int shift) { return std::rotl<uint32_t, 0>(x, shift); }
+		inline int64_t rotl(int64_t x, int shift) { return std::rotl<uint64_t, 0>(x, shift); }
+		inline float rotl(float x, int shift) { return DataConversion::IntToFloat(std::rotl(*(uint32_t*)&x, shift)); }
 	}
 	namespace IO
 	{
