@@ -7,7 +7,7 @@
 #include "../Crypto/aes256.h"
 #include <filesystem>
 #include <unordered_map>
-
+#include <bit>
 
 #ifdef _MSC_VER
 #define __builtin_bswap16 _byteswap_ushort
