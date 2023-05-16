@@ -127,7 +127,7 @@ int CompileBase::StringToInt(std::string& str, IntTokenContext context, uint32_t
     }
 
     if (str.size() > 2 && str[0] == '0' && strl[1] == 'x')
-        return Utils::Bitwise::SwapEndian((int32_t)stoll(str, nullptr, 16));//big endian
+        return (int32_t)stoll(str, nullptr, 16);
     else
         return stoll(str, nullptr, 10);
 }
