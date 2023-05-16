@@ -72,10 +72,10 @@ namespace Utils
 			uint8_t* bin = (uint8_t*)&val;
 
 			std::string str(sizeof(IntType) * 2, '\0');
-			for (uint32_t i = 0; i < sizeof(IntType); i++)
+			for (uint32_t i = 0, j = sizeof(IntType) - 1; i < sizeof(IntType); i++, j--)
 			{
-				str[i * 2 + 0] = hex_str[(bin[i] >> 4) & 0x0F];
-				str[i * 2 + 1] = hex_str[(bin[i]) & 0x0F];
+				str[i * 2 + 0] = hex_str[(bin[j] >> 4) & 0x0F];
+				str[i * 2 + 1] = hex_str[(bin[j]) & 0x0F];
 			}
 			return str;
 		}
