@@ -904,6 +904,13 @@ void DecompileBase::PrintFunction(int paramCount, int varCount, char* name, int 
 
 
     PrintVerbosePC();
+
+    if (Options::DecompileOptions::Verbose && nameLength)
+    {
+        Out += ", nameLen: ";
+        Out += to_string(nameLength);
+    }
+
     Out += "\r\n";
 }
 
